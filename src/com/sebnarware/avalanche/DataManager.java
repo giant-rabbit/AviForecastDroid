@@ -13,8 +13,13 @@ public class DataManager {
 	
     private static final String TAG = "DataManager";
 
+    private DataListener dataListener; 
 	private NetworkEngine networkEngine = new NetworkEngine();
 	private HashMap<String, RegionData> regions = new HashMap<String, RegionData>();
+	
+	public DataManager(DataListener dataListener) {
+		this.dataListener = dataListener;
+	}
 	
 	public void loadRegions() {
 		
@@ -46,6 +51,9 @@ public class DataManager {
 	        			RegionData regionData = new RegionData(regionId, displayName, URL, polygon);
 	        			regions.put(regionId, regionData);
 		        		Log.i(TAG, "loadRegions created region: " + regionId);
+		        		
+		        		// call the listener
+		        		dataListener.regionAdded(regionData);
 	        		}
 	        		
 	        		Log.i(TAG, "loadRegions total count of regions created: " + regions.size());

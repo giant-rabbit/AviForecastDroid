@@ -2,52 +2,44 @@ package com.sebnarware.avalanche;
 
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import android.os.Bundle;
 
-
-public class MainActivity extends MapActivity {
+public class MainActivity extends MapActivity implements DataListener {
+	
+	private MapView mapView;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+    
 	    
-        // testing map view
-	    MapView mapView = (MapView) findViewById(R.id.mapview);
+        // data stuff (network and JSON)
+        DataManager dataManager = new DataManager(this);
+        dataManager.loadRegions(); 
+
+	    
+        // map view
+	    mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 
-	    
-	    
-	    // testing overlay
-	    
-		// BUGBUG temp data
-	    GeoPoint[] polygon = new GeoPoint[3];
-	    polygon[0] = new GeoPoint(50000000, -100000000);
-	    polygon[1] = new GeoPoint(55000000, -100000000);
-	    polygon[2] = new GeoPoint(55000000, -105000000);
-
-	    PolygonOverlay overlay = new PolygonOverlay(polygon);
-
-	    List<Overlay> mapOverlays = mapView.getOverlays();
-	    mapOverlays.add(overlay);
-
-	    
-	    
-        // testing data stuff (network and JSON)
-        DataManager dataManager = new DataManager();
-        dataManager.loadRegions(); 
     }
     
-
 	@Override
 	protected boolean isRouteDisplayed() {
 	    return false;
 	}
 
+	@Override
+	public void regionAdded(RegionData regionData) {
+	    PolygonOverlay overlay = new PolygonOverlay(regionData.getPolygon());
+	    List<Overlay> mapOverlays = mapView.getOverlays();
+	    mapOverlays.add(overlay);
+	}
 }
