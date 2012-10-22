@@ -43,7 +43,7 @@ public class MainActivity extends MapActivity {
 	    // testing overlay
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    GeoPoint point = new GeoPoint(19240000,-99120000);
-	    MapCircleOverlay overlay = new MapCircleOverlay(point, 100000);
+	    PolygonOverlay overlay = new PolygonOverlay(point, 100000);
 	    mapOverlays.add(overlay);
 
 	    
