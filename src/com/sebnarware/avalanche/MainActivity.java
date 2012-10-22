@@ -27,23 +27,18 @@ public class MainActivity extends MapActivity {
 	    mapView.setBuiltInZoomControls(true);
 
 	    
-        
-//	    // testing itemized overlay
-//	    List<Overlay> mapOverlays = mapView.getOverlays();
-//	    Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
-//	    RegionItemizedOverlay itemizedoverlay = new RegionItemizedOverlay(drawable, this);
-//	    
-//	    GeoPoint point = new GeoPoint(19240000,-99120000);
-//	    OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
-//	    
-//	    itemizedoverlay.addOverlay(overlayitem);
-//	    mapOverlays.add(itemizedoverlay);
-
 	    
 	    // testing overlay
+	    
+		// BUGBUG temp data
+	    GeoPoint[] polygon = new GeoPoint[3];
+	    polygon[0] = new GeoPoint(50000000, -100000000);
+	    polygon[1] = new GeoPoint(55000000, -100000000);
+	    polygon[2] = new GeoPoint(55000000, -105000000);
+
+	    PolygonOverlay overlay = new PolygonOverlay(polygon);
+
 	    List<Overlay> mapOverlays = mapView.getOverlays();
-	    GeoPoint point = new GeoPoint(19240000,-99120000);
-	    PolygonOverlay overlay = new PolygonOverlay(point, 100000);
 	    mapOverlays.add(overlay);
 
 	    

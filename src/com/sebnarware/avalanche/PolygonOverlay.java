@@ -11,14 +11,13 @@ import com.google.android.maps.Overlay;
 
 public class PolygonOverlay extends Overlay {
 
-	private GeoPoint point;
-	private float radius; // in meters
+	private GeoPoint[] polygon;
 	private Paint paintOutline;
 	private Paint paintFill;
 	
-	public PolygonOverlay(GeoPoint point, float radius) {
-	    this.point = point;
-	    this.radius = radius;
+	public PolygonOverlay(GeoPoint[] polygon) {
+		
+	    this.polygon = polygon;
 
 	    paintOutline = new Paint();
 	    paintOutline.setARGB(165, 0, 0, 0);
@@ -30,19 +29,13 @@ public class PolygonOverlay extends Overlay {
 	
 	    paintFill = new Paint();
 	    paintFill.setARGB(165, 255, 242, 0);
-		}
+	}
 	
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-
-		// BUGBUG temp data
-	    GeoPoint[] polygon = new GeoPoint[3];
-	    polygon[0] = new GeoPoint(50000000, -100000000);
-	    polygon[1] = new GeoPoint(55000000, -100000000);
-	    polygon[2] = new GeoPoint(55000000, -105000000);
-	    
-	    
-	    // NOTE this method gets called twice (once for each with shadow true and false); we only need to draw once
+		
+	    // NOTE this method gets called twice (once for each with shadow true and false); we only need to 
+		// draw once, so only take action for one of the two calls, for efficiency
 	    if (!shadow) {
 	    	
 		    // create a path from the array of geo points
