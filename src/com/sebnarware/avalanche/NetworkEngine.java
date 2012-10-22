@@ -1,7 +1,5 @@
 package com.sebnarware.avalanche;
 
-import org.json.*;
-
 import android.util.Log;
 
 import com.loopj.android.http.*;
@@ -10,32 +8,12 @@ public class NetworkEngine {
 	
     private static final String TAG = "NetworkEngine";
     
+    // NOTE on threading: "All requests are made outside of your app’s main UI thread, but any callback logic 
+    // will be executed on the same thread as the callback was created using Android’s Handler message passing."
 	private AsyncHttpClient client = new AsyncHttpClient();
     
-    public void loadRegions() {
-
+    public void loadRegions(JsonHttpResponseHandler responseHandler) {
     	Log.i(TAG, "loadRegions called");
-
-    	client.get("http://aviforecast.herokuapp.com/v1XXX/regions.json", new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray response) {
-
-            	Log.i(TAG, "loadRegions success");
-            	
-            	try {
-                JSONObject firstItem = response.getJSONObject(0);
-                String regionId = firstItem.getString("regionId");
-                Log.i(TAG, regionId);
-            	} catch (JSONException e) {
-            		// do nothing
-            	}
-            }
-            
-            @Override
-            public void onFailure(Throwable error, String content) {
-            	Log.w(TAG, "loadRegions failure");
-            }
-        });
+    	client.get("http://aviforecast.herokuapp.com/v1/regions.json", responseHandler);
     }
-
 }

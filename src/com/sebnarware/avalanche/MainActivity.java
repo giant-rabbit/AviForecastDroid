@@ -39,9 +39,9 @@ public class MainActivity extends MapActivity {
 
 	    
 	    
-        // testing network and JSON
-        NetworkEngine networkEngine = new NetworkEngine();
-        networkEngine.loadRegions(); 
+        // testing data stuff (network and JSON)
+        DataManager dataManager = new DataManager();
+        dataManager.loadRegions(); 
     }
     
 
