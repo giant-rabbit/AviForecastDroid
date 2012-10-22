@@ -40,7 +40,6 @@ public class PolygonOverlay extends Overlay {
 	    	
 		    // create a path from the array of geo points
 		    Path path = new Path();
-		    path.setFillType(Path.FillType.EVEN_ODD);
 
 		    for (int i = 0; i < polygon.length; i++) {
 			    Point pointInPixels = mapView.getProjection().toPixels(polygon[i], null);
