@@ -16,4 +16,9 @@ public class NetworkEngine {
     	Log.i(TAG, "loadRegions called");
     	client.get("http://aviforecast.herokuapp.com/v1/regions.json", responseHandler);
     }
+    
+    public void loadForecasts(JsonHttpResponseHandler responseHandler) {
+    	Log.i(TAG, "loadForecasts called");
+    	client.get("http://aviforecast.herokuapp.com/v1/forecasts.json", responseHandler);
+    }
 }

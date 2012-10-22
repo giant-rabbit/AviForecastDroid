@@ -1,6 +1,6 @@
 package com.sebnarware.avalanche;
 
-public enum WhenMode {
+public enum TimeframeMode {
 	Today,
 	Tomorrow,
 	TwoDaysOut

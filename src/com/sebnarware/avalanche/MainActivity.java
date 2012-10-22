@@ -41,5 +41,17 @@ public class MainActivity extends MapActivity implements DataListener {
 	    PolygonOverlay overlay = new PolygonOverlay(regionData.getPolygon());
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    mapOverlays.add(overlay);
+	    
+	    // force a redraw
+	    // BUGBUG is there a better way to do this (i.e. just invalidate the specific overlay, not the whole map view)? 
+	    mapView.invalidate();
+	}
+
+	@Override
+	public void forecastUpdated(RegionData regionData) {
+		
+	    // force a redraw
+	    // BUGBUG is there a better way to do this (i.e. just invalidate the specific overlay, not the whole map view)? 
+	    mapView.invalidate();
 	}
 }
