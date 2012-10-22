@@ -1,6 +1,5 @@
 package com.sebnarware.avalanche;
 
-import java.util.Date;
 import java.util.List;
 
 import com.google.android.maps.GeoPoint;
@@ -9,9 +8,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import android.os.Bundle;
-
-import com.loopj.android.http.*;
-import org.json.*;
 
 
 public class MainActivity extends MapActivity {
@@ -44,26 +40,8 @@ public class MainActivity extends MapActivity {
 	    
 	    
         // testing network and JSON
-        final Date startTime = new Date();
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://aviforecast.herokuapp.com/v1/regions.json", new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray response) {
-
-                final Date endTime = new Date();
-                long millis = endTime.getTime() - startTime.getTime();
-                System.out.println("elapsed time: " + millis);
-
-            	try {
-                JSONObject firstItem = response.getJSONObject(0);
-                String regionId = firstItem.getString("regionId");
-                System.out.println(regionId);
-            	} catch (JSONException e) {
-            		// do nothing
-            	}
-
-            }
-        });        
+        NetworkEngine networkEngine = new NetworkEngine();
+        networkEngine.loadRegions(); 
     }
     
 
