@@ -81,7 +81,7 @@ public class RegionData {
 		
 		if (forecast != null) {
 			for (int i = 0; i < forecast.length; i++) {
-				if (forecast[i].getDateString() == dateString) {
+				if (dateString.equals(forecast[i].getDateString())) {
 					aviLevel = forecast[i].getAviLevel();
 					lookupMatch = true;
 		        	Log.d(TAG, "aviLevelForDateString match found; region: " + regionId + "; date: " + dateString + "; avi level: " + aviLevel);
