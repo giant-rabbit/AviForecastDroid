@@ -2,30 +2,26 @@ package com.sebnarware.avalanche;
 
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
-public class MainActivity extends MapActivity implements LocationListener, DataListener {
+public class MainActivity extends MapActivity implements DataListener {
 	
     private static final String TAG = "MainActivity";
 
-	private MapView mapView;
-	private LocationManager locationManager;
-	private MyLocationOverlay myLocationOverlay;
-	private boolean haveUpdatedUserLocation = false;
+    private static final int DEFAULT_MAP_ZOOM_LEVEL = 8;
 
-    /** Called when the activity is first created. */
+	private MapView mapView;
+	private MyLocationOverlay myLocationOverlay;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	
     	Log.i(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -40,19 +36,48 @@ public class MainActivity extends MapActivity implements LocationListener, DataL
 	    mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 	    
+	    
+	    // add an overlay that draws the blue dot at the user location
+	    // NOTE use a overloaded version of MyLocationOverlay to deal with a bug on some phones; see http://joshclemm.com/blog/?p=148
 	    myLocationOverlay = new FixedMyLocationOverlay(this, mapView);
 	    mapView.getOverlays().add(myLocationOverlay);
-	    mapView.postInvalidate();
+	    mapView.invalidate();
 	    
-        
-        // location stuff
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (lastKnownLocation != null) {
-        	onLocationChanged(lastKnownLocation);
-        }
-
+	    // when we get a first location fix, pan/zoom the map around the user's location
+	    myLocationOverlay.runOnFirstFix(new Runnable() {
+            public void run() {
+            	runOnUiThread(new Runnable() {
+            		public void run() {
+            			mapView.getController().animateTo(myLocationOverlay.getMyLocation());
+            			mapView.getController().setZoom(DEFAULT_MAP_ZOOM_LEVEL);
+            		}
+            	});
+            }
+        });
     }
+
+	@Override
+	protected void onResume() {
+    	Log.i(TAG, "onResume called");
+		super.onResume();
+
+		// when our activity resumes, we want to register for location updates
+		myLocationOverlay.enableMyLocation();
+	}
+
+	@Override
+	protected void onPause() {
+    	Log.i(TAG, "onPause called");
+		super.onPause();
+		
+		// when our activity pauses, we want to stop listening for location updates
+		myLocationOverlay.disableMyLocation();
+	}
+	   
+	@Override
+	protected boolean isRouteDisplayed() {
+	    return false;
+	}
 	
 	@Override
 	public void regionAdded(RegionData regionData) {
@@ -71,57 +96,6 @@ public class MainActivity extends MapActivity implements LocationListener, DataL
 	    // force a redraw
 	    // BUGBUG is there a better way to do this (i.e. just invalidate the specific overlay, not the whole map view)? 
 	    mapView.invalidate();
-	}
-
-	@Override
-	protected void onResume() {
-    	Log.i(TAG, "onResume called");
-		super.onResume();
-
-		// when our activity resumes, we want to register for location updates
-		myLocationOverlay.enableMyLocation();
-	    
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1000, this);
-	}
-
-	@Override
-	protected void onPause() {
-    	Log.i(TAG, "onPause called");
-		super.onPause();
-		
-		// when our activity pauses, we want to stop listening for location updates
-		myLocationOverlay.disableMyLocation();
-		
-		locationManager.removeUpdates(this);
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		if (location != null && !haveUpdatedUserLocation) {
-	    	Log.i(TAG, "onLocationChanged location found, positioning map");
-	    	GeoPoint locationGeoPoint = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
-			mapView.getController().animateTo(locationGeoPoint);
-			mapView.getController().setZoom(8);
-
-			haveUpdatedUserLocation = true;
-		}
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
-	   
-	@Override
-	protected boolean isRouteDisplayed() {
-	    return false;
 	}
 
 }
