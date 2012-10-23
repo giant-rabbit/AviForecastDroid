@@ -11,6 +11,8 @@ import com.google.android.maps.Overlay;
 
 public class PolygonOverlay extends Overlay {
 
+	private static final int OVERLAY_ALPHA = (int) (0.65 * 255);
+	
 	private GeoPoint[] polygon;
 	private Paint paintOutline;
 	private Paint paintFill;
@@ -20,7 +22,7 @@ public class PolygonOverlay extends Overlay {
 	    this.polygon = polygon;
 
 	    paintOutline = new Paint();
-	    paintOutline.setARGB(165, 0, 0, 0);
+	    paintOutline.setARGB(OVERLAY_ALPHA, 0, 0, 0);
 	    paintOutline.setStrokeWidth(2);
 	    paintOutline.setStrokeCap(Paint.Cap.ROUND);
 	    paintOutline.setAntiAlias(true);
@@ -28,7 +30,7 @@ public class PolygonOverlay extends Overlay {
 	    paintOutline.setStyle(Paint.Style.STROKE);
 	
 	    paintFill = new Paint();
-	    paintFill.setARGB(165, 255, 242, 0);
+	    paintFill.setARGB(OVERLAY_ALPHA, 255, 242, 0);
 	}
 	
 	@Override

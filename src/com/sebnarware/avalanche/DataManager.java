@@ -43,7 +43,7 @@ public class DataManager {
 	        				JSONObject pointJSON = pointsJSON.getJSONObject(j);
 	        				double lat = pointJSON.getDouble("lat");
 	        				double lon = pointJSON.getDouble("lon");
-	        				polygon[j] = new GeoPoint((int)(lat * 1000000), (int)(lon * 1000000));
+	        				polygon[j] = new GeoPoint((int)(lat * 1E6), (int)(lon * 1E6));
 	        			}
 	        			
 	        			// create the region data, and add it to our set
