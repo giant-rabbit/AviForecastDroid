@@ -13,13 +13,12 @@ public class PolygonOverlay extends Overlay {
 
 	private static final int OVERLAY_ALPHA = (int) (0.65 * 255);
 	
-	private GeoPoint[] polygon;
+	private RegionData regionData;
 	private Paint paintOutline;
-	private Paint paintFill;
 	
-	public PolygonOverlay(GeoPoint[] polygon) {
+	public PolygonOverlay(RegionData regionData) {
 		
-	    this.polygon = polygon;
+	    this.regionData = regionData;
 
 	    paintOutline = new Paint();
 	    paintOutline.setARGB(OVERLAY_ALPHA, 0, 0, 0);
@@ -28,9 +27,6 @@ public class PolygonOverlay extends Overlay {
 	    paintOutline.setAntiAlias(true);
 	    paintOutline.setDither(false);
 	    paintOutline.setStyle(Paint.Style.STROKE);
-	
-	    paintFill = new Paint();
-	    paintFill.setARGB(OVERLAY_ALPHA, 255, 242, 0);
 	}
 	
 	@Override
@@ -41,7 +37,9 @@ public class PolygonOverlay extends Overlay {
 	    if (!shadow) {
 	    	
 		    // create a path from the array of geo points
+	    	// because paths are in pixels, not geopoints, we have to rebuild this every time the map zooms
 		    Path path = new Path();
+		    GeoPoint[] polygon = regionData.getPolygon();
 
 		    for (int i = 0; i < polygon.length; i++) {
 			    Point pointInPixels = mapView.getProjection().toPixels(polygon[i], null);
@@ -51,13 +49,44 @@ public class PolygonOverlay extends Overlay {
 		    		path.lineTo(pointInPixels.x, pointInPixels.y);
 		    	}
 		    }
-
 		    path.close();
 
+		    // get the appropriate avi level fill color (based on the forecast for the region and the timeframe mode)
+		    int aviLevel = regionData.aviLevelForCurrentTimeframeMode();
+		    Paint paintFill = getColorForAviLevel(aviLevel); 
+		    
 		    // draw the outline, and the fill
 		    canvas.drawPath(path, paintOutline);
 		    canvas.drawPath(path, paintFill);
 	    }
+	}
+	
+	private Paint getColorForAviLevel(int aviLevel) {
+		
+		Paint paint = new Paint();
+		
+		switch (aviLevel) {
+		case AviLevel.LOW:
+			paint.setARGB(OVERLAY_ALPHA, 80, 184, 72);
+			break;
+		case AviLevel.MODERATE:
+			paint.setARGB(OVERLAY_ALPHA, 255, 242, 0);
+			break;
+		case AviLevel.CONSIDERABLE:
+			paint.setARGB(OVERLAY_ALPHA, 247, 148, 30);
+			break;
+		case AviLevel.HIGH:
+			paint.setARGB(OVERLAY_ALPHA, 237, 28, 36);
+			break;
+		case AviLevel.EXTREME:
+			paint.setARGB(OVERLAY_ALPHA, 35, 31, 32);
+			break;
+		default:
+			paint.setARGB(OVERLAY_ALPHA, 255, 255, 255);
+			break;
+		}
+		
+		return paint;
 	}
 
 }

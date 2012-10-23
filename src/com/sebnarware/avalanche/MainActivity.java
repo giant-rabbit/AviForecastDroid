@@ -18,7 +18,7 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	private MapView mapView;
 	private MyLocationOverlay myLocationOverlay;
-	
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends MapActivity implements DataListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
     
-	    
+        
         // data stuff (network and JSON)
         DataManager dataManager = new DataManager(this);
         dataManager.loadRegions(); 
@@ -86,7 +86,7 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	@Override
 	public void regionAdded(RegionData regionData) {
-	    PolygonOverlay overlay = new PolygonOverlay(regionData.getPolygon());
+	    PolygonOverlay overlay = new PolygonOverlay(regionData);
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    mapOverlays.add(overlay);
 	    
@@ -102,4 +102,5 @@ public class MainActivity extends MapActivity implements DataListener {
 	    // BUGBUG is there a better way to do this (i.e. just invalidate the specific overlay, not the whole map view)? 
 	    mapView.invalidate();
 	}
+
 }

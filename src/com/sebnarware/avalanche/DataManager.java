@@ -16,13 +16,24 @@ public class DataManager {
     private DataListener dataListener; 
 	private NetworkEngine networkEngine = new NetworkEngine();
 	private HashMap<String, RegionData> regions = new HashMap<String, RegionData>();
+	private TimeframeMode timeframeMode;
 	
 	public DataManager(DataListener dataListener) {
 		this.dataListener = dataListener;
+        this.timeframeMode = TimeframeMode.Today;
 	}
 	
+	public TimeframeMode getTimeframeMode() {
+		return timeframeMode;
+	}
+
+	public void setTimeframeMode(TimeframeMode timeframeMode) {
+		this.timeframeMode = timeframeMode;
+	}
+
 	public void loadRegions() {
 		
+		final DataManager self = this; 
 		networkEngine.loadRegions(new JsonHttpResponseHandler() {
 	        @Override
 	        public void onSuccess(JSONArray response) {
@@ -47,7 +58,7 @@ public class DataManager {
 	        			}
 	        			
 	        			// create the region data, and add it to our set
-	        			RegionData regionData = new RegionData(regionId, displayName, URL, polygon);
+	        			RegionData regionData = new RegionData(self, regionId, displayName, URL, polygon);
 	        			regions.put(regionId, regionData);
 		        		Log.i(TAG, "loadRegions created region: " + regionId);
 		        		
@@ -69,7 +80,6 @@ public class DataManager {
 	    });
 	}
 
-	
 	public void loadForecasts() {
 		
 		networkEngine.loadForecasts(new JsonHttpResponseHandler() {
@@ -117,28 +127,3 @@ public class DataManager {
 	}
 
 }
-
-//// parse out each region
-//for (int i = 0; i < ((NSArray *)JSON).count; i++) {
-//    
-//    NSString * regionId = [[JSON objectAtIndex:i] valueForKeyPath:@"regionId"];
-//    NSArray * forecast = [[JSON objectAtIndex:i] valueForKeyPath:@"forecast"];
-//    
-//    if (regionId) {
-//        
-//        // NOTE forecast may be nil, if no forecast is currently available for this region
-//                                
-//        numRegions++;
-//        DLog(@"loaded forecast for regionId: %@", regionId);
-//        
-//        // invoke the callback for each region read successfully
-//        dataBlock(regionId, forecast);
-//    }
-//}
-//}
-//
-//DLog(@"read forecasts for %i regions", numRegions);
-
-
-
-
