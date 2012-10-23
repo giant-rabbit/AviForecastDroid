@@ -35,15 +35,15 @@ public class MainActivity extends MapActivity implements LocationListener, DataL
         DataManager dataManager = new DataManager(this);
         dataManager.loadRegions(); 
 	    
+        
         // map view
 	    mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 	    
 	    myLocationOverlay = new FixedMyLocationOverlay(this, mapView);
 	    mapView.getOverlays().add(myLocationOverlay);
-	    mapView.invalidate();
+	    mapView.postInvalidate();
 	    
-
         
         // location stuff
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
