@@ -35,7 +35,7 @@ public class MainActivity extends MapActivity implements DataListener {
         // map view
 	    mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
-	    
+
 	    
 	    // add an overlay that draws the blue dot at the user location
 	    // NOTE use a overloaded version of MyLocationOverlay to deal with a bug on some phones; see http://joshclemm.com/blog/?p=148
@@ -46,8 +46,10 @@ public class MainActivity extends MapActivity implements DataListener {
 	    // when we get a first location fix, pan/zoom the map around the user's location
 	    myLocationOverlay.runOnFirstFix(new Runnable() {
             public void run() {
+            	// NOTE run this on the UI thread
             	runOnUiThread(new Runnable() {
             		public void run() {
+            			// pan and zoom the map
             			mapView.getController().animateTo(myLocationOverlay.getMyLocation());
             			mapView.getController().setZoom(DEFAULT_MAP_ZOOM_LEVEL);
             		}
