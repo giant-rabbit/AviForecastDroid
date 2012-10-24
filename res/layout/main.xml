@@ -9,25 +9,31 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
     
-        <Button
+        <ToggleButton
+	    	android:id="@+id/buttonToday"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
-	        android:text="@string/button_today"
+	        android:textOn="@string/button_today"
+	        android:textOff="@string/button_today"
 	        android:onClick="setTimeframeToToday"
 	    />
-	    <Button
+	    <ToggleButton
+	    	android:id="@+id/buttonTomorrow"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
-	        android:text="@string/button_tomorrow"
+	        android:textOn="@string/button_tomorrow"
+	        android:textOff="@string/button_tomorrow"
 	        android:onClick="setTimeframeToTomorrow"
 	    />
-	    <Button
+	    <ToggleButton
+	    	android:id="@+id/buttonTwoDaysOut"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
-	        android:text="@string/button_two_days_out"
+	        android:textOn="@string/button_two_days_out"
+	        android:textOff="@string/button_two_days_out"
 	        android:onClick="setTimeframeToTwoDaysOut"
 	    />
         
