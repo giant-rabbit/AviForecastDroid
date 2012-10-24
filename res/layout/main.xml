@@ -4,6 +4,35 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
+        <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="@string/button_today"
+	        android:onClick="setTimeframeToToday"
+	    />
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="@string/button_tomorrow"
+	        android:onClick="setTimeframeToTomorrow"
+	    />
+	    <Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:text="@string/button_two_days_out"
+	        android:onClick="setTimeframeToTwoDaysOut"
+	    />
+        
+    </LinearLayout>
+    
     <com.google.android.maps.MapView
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/mapview"

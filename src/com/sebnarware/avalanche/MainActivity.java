@@ -9,6 +9,7 @@ import com.google.android.maps.Overlay;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class MainActivity extends MapActivity implements DataListener {
 	
@@ -16,6 +17,7 @@ public class MainActivity extends MapActivity implements DataListener {
 
     private static final int DEFAULT_MAP_ZOOM_LEVEL = 8;
 
+    private DataManager dataManager;
 	private MapView mapView;
 	private MyLocationOverlay myLocationOverlay;
 
@@ -28,7 +30,7 @@ public class MainActivity extends MapActivity implements DataListener {
     
         
         // data stuff (network and JSON)
-        DataManager dataManager = new DataManager(this);
+        dataManager = new DataManager(this);
         dataManager.loadRegions(); 
 	    
         
@@ -93,6 +95,28 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	@Override
 	public void forecastUpdated(RegionData regionData) {
+		
+	    // force a redraw
+	    mapView.invalidate();
+	}
+
+	public void setTimeframeToToday(View view) {
+		setTimeframeMode(TimeframeMode.Today);
+	}
+	
+	public void setTimeframeToTomorrow(View view) {
+		setTimeframeMode(TimeframeMode.Tomorrow);
+	}
+
+	public void setTimeframeToTwoDaysOut(View view) {
+		setTimeframeMode(TimeframeMode.TwoDaysOut);
+	}
+
+	private void setTimeframeMode(TimeframeMode timeframeMode) {
+
+		Log.i(TAG, "setTimeframeMode to: " + timeframeMode);
+		
+		dataManager.setTimeframeMode(timeframeMode);
 		
 	    // force a redraw
 	    mapView.invalidate();

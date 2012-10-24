@@ -2,6 +2,9 @@
 <resources>
 
     <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">AviForecastDroid</string>
-
+    <string name="app_name">Avalanche Forecasts</string>
+    <string name="button_today">Today</string>
+    <string name="button_tomorrow">Tomorrow</string>
+    <string name="button_two_days_out">Two Days Out</string>
+    
 </resources>
