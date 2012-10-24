@@ -19,6 +19,7 @@ public class WebViewActivity extends Activity {
         
         // get the web view, and load the url
         WebView webView = (WebView) findViewById(R.id.webview);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
     }
 
