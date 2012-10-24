@@ -1,5 +1,7 @@
 package com.sebnarware.avalanche;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -16,10 +18,13 @@ public class PolygonOverlay extends Overlay {
 
 	private static final int OVERLAY_ALPHA = (int) (0.65 * 255);
 	
+	private Context context; 
 	private RegionData regionData;
 	private Paint paintOutline;
-	
-	public PolygonOverlay(RegionData regionData) {
+
+	public PolygonOverlay(Context context, RegionData regionData) {
+		
+		this.context= context;
 		
 	    this.regionData = regionData;
 
@@ -109,9 +114,16 @@ public class PolygonOverlay extends Overlay {
 		
 		if (pointInPolygon) {
 			Log.i(TAG, "onTap tap was in polygon of region: " + this.regionData.getRegionId());
+			
+			// start the web view activity
+		    Intent intent = new Intent(this.context, WebViewActivity.class);
+		    String url = this.regionData.getURL();
+		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL, url);
+			Log.i(TAG, "onTap starting web view; url: " + url);
+			this.context.startActivity(intent);
 		}
 
-		return false;
+		return pointInPolygon;
 	}
 	
     // return true if the given point is contained inside the polygon

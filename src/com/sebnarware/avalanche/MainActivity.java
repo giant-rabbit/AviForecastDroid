@@ -13,6 +13,8 @@ import android.view.View;
 
 public class MainActivity extends MapActivity implements DataListener {
 	
+    public final static String INTENT_EXTRA_WEB_VIEW_URL = "com.sebnarware.avalanche.WEB_VIEW_URL";
+
     private static final String TAG = "MainActivity";
 
     private static final int DEFAULT_MAP_ZOOM_LEVEL = 8;
@@ -85,7 +87,7 @@ public class MainActivity extends MapActivity implements DataListener {
 	
 	@Override
 	public void regionAdded(RegionData regionData) {
-	    PolygonOverlay overlay = new PolygonOverlay(regionData);
+	    PolygonOverlay overlay = new PolygonOverlay(this, regionData);
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    mapOverlays.add(overlay);
 	    
