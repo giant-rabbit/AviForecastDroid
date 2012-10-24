@@ -63,7 +63,7 @@ public class MainActivity extends MapActivity implements DataListener {
     	Log.i(TAG, "onResume called");
 		super.onResume();
 
-		// when our activity resumes, we want to register for location updates
+		// when our activity resumes, we want to start listening for location updates
 		myLocationOverlay.enableMyLocation();
 	}
 
@@ -88,7 +88,6 @@ public class MainActivity extends MapActivity implements DataListener {
 	    mapOverlays.add(overlay);
 	    
 	    // force a redraw
-	    // BUGBUG is there a better way to do this (i.e. just invalidate the specific overlay, not the whole map view)? 
 	    mapView.invalidate();
 	}
 
@@ -96,7 +95,6 @@ public class MainActivity extends MapActivity implements DataListener {
 	public void forecastUpdated(RegionData regionData) {
 		
 	    // force a redraw
-	    // BUGBUG is there a better way to do this (i.e. just invalidate the specific overlay, not the whole map view)? 
 	    mapView.invalidate();
 	}
 
