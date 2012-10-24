@@ -15,7 +15,8 @@ public final class R {
         public static final int ic_maps_indicator_current_position=0x7f020001;
     }
     public static final class id {
-        public static final int mapview=0x7f050000;
+        public static final int mapview=0x7f050001;
+        public static final int webview=0x7f050000;
     }
     public static final class layout {
         public static final int activity_web_view=0x7f030000;
