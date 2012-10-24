@@ -108,7 +108,7 @@ public class PolygonOverlay extends Overlay {
 		boolean pointInPolygon = contains(polygonInPixels, pointInPixels);
 		
 		if (pointInPolygon) {
-			Log.i(TAG, "contains tap was in polygon of region: " + this.regionData.getRegionId());
+			Log.i(TAG, "onTap tap was in polygon of region: " + this.regionData.getRegionId());
 		}
 
 		return false;
