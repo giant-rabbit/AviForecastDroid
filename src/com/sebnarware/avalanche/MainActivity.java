@@ -114,7 +114,7 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	private void setTimeframeMode(TimeframeMode timeframeMode) {
 
-		Log.i(TAG, "setTimeframeMode to: " + timeframeMode);
+		Log.i(TAG, "setTimeframeMode setting mode to: " + timeframeMode);
 		
 		dataManager.setTimeframeMode(timeframeMode);
 		
