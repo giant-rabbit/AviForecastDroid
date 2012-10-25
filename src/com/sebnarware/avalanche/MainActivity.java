@@ -10,6 +10,8 @@ import com.google.android.maps.Overlay;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.ToggleButton;
 
 public class MainActivity extends MapActivity implements DataListener {
@@ -72,6 +74,15 @@ public class MainActivity extends MapActivity implements DataListener {
         buttonTwoDaysOut = (ToggleButton) findViewById(R.id.buttonTwoDaysOut);
         setTimeframeMode(TimeframeMode.Today);
 
+        
+        // set up legend with a click action
+        ImageView imageViewLegend = (ImageView) findViewById(R.id.imageviewLegend);
+        imageViewLegend.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick called for legend image view");
+            }
+        });
     }
 
 	@Override
