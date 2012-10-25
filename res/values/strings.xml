@@ -7,9 +7,8 @@
     <string name="button_two_days_out">Two Days Out</string>
     <string name="title_activity_web_view">Detailed Forecast</string>
     <string name="image_view_legend_content_description">Legend</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
     <string name="title_activity_danger_scale">Danger Scale</string>
     <string name="image_view_danger_scale_content_description">Danger Scale</string>
+    <string name="menuitem_info">Info</string>
 
 </resources>

@@ -17,30 +17,33 @@ public final class R {
         public static final int logo=0x7f020003;
     }
     public static final class id {
-        public static final int buttonToday=0x7f050002;
-        public static final int buttonTomorrow=0x7f050003;
-        public static final int buttonTwoDaysOut=0x7f050004;
-        public static final int imageviewDangerScale=0x7f050000;
-        public static final int imageviewLegend=0x7f050006;
-        public static final int linearLayoutTimeframeModeButtons=0x7f050001;
-        public static final int mapview=0x7f050005;
-        public static final int webview=0x7f050007;
+        public static final int buttonToday=0x7f060002;
+        public static final int buttonTomorrow=0x7f060003;
+        public static final int buttonTwoDaysOut=0x7f060004;
+        public static final int imageviewDangerScale=0x7f060000;
+        public static final int imageviewLegend=0x7f060006;
+        public static final int linearLayoutTimeframeModeButtons=0x7f060001;
+        public static final int mapview=0x7f060005;
+        public static final int menuitem_info=0x7f060008;
+        public static final int webview=0x7f060007;
     }
     public static final class layout {
         public static final int activity_danger_scale=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_web_view=0x7f030002;
     }
+    public static final class menu {
+        public static final int menu_main=0x7f050000;
+    }
     public static final class string {
         public static final int app_name=0x7f040000;
         public static final int button_today=0x7f040001;
         public static final int button_tomorrow=0x7f040002;
         public static final int button_two_days_out=0x7f040003;
-        public static final int hello_world=0x7f040006;
-        public static final int image_view_danger_scale_content_description=0x7f040009;
+        public static final int image_view_danger_scale_content_description=0x7f040007;
         public static final int image_view_legend_content_description=0x7f040005;
-        public static final int menu_settings=0x7f040007;
-        public static final int title_activity_danger_scale=0x7f040008;
+        public static final int menuitem_info=0x7f040008;
+        public static final int title_activity_danger_scale=0x7f040006;
         public static final int title_activity_web_view=0x7f040004;
     }
 }
