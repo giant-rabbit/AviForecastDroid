@@ -12,13 +12,16 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_maps_indicator_current_position=0x7f020000;
-        public static final int logo=0x7f020001;
+        public static final int legend4=0x7f020001;
+        public static final int logo=0x7f020002;
     }
     public static final class id {
-        public static final int buttonToday=0x7f050001;
-        public static final int buttonTomorrow=0x7f050002;
-        public static final int buttonTwoDaysOut=0x7f050003;
-        public static final int mapview=0x7f050004;
+        public static final int buttonToday=0x7f050002;
+        public static final int buttonTomorrow=0x7f050003;
+        public static final int buttonTwoDaysOut=0x7f050004;
+        public static final int imageviewLegend=0x7f050006;
+        public static final int linearLayoutTimeframeModeButtons=0x7f050001;
+        public static final int mapview=0x7f050005;
         public static final int webview=0x7f050000;
     }
     public static final class layout {
@@ -30,6 +33,7 @@ public final class R {
         public static final int button_today=0x7f040001;
         public static final int button_tomorrow=0x7f040002;
         public static final int button_two_days_out=0x7f040003;
+        public static final int imageviewLegend=0x7f040005;
         public static final int title_activity_web_view=0x7f040004;
     }
 }

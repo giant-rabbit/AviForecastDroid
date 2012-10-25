@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-    
-        <ToggleButton
-	    	android:id="@+id/buttonToday"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:textOn="@string/button_today"
-	        android:textOff="@string/button_today"
-	        android:onClick="setTimeframeToToday"
-	    />
-	    <ToggleButton
-	    	android:id="@+id/buttonTomorrow"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:textOn="@string/button_tomorrow"
-	        android:textOff="@string/button_tomorrow"
-	        android:onClick="setTimeframeToTomorrow"
-	    />
-	    <ToggleButton
-	    	android:id="@+id/buttonTwoDaysOut"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:textOn="@string/button_two_days_out"
-	        android:textOff="@string/button_two_days_out"
-	        android:onClick="setTimeframeToTwoDaysOut"
-	    />
-        
-    </LinearLayout>
-    
-    <com.google.android.maps.MapView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:id="@+id/mapview"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:clickable="true"
-	    android:apiKey="0D1jpN2fasf3RQcT5YKirZQl8Ae3En6IWzOqyig"
-	/>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linearLayoutTimeframeModeButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
 
-</LinearLayout>
+        <ToggleButton
+            android:id="@+id/buttonToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="setTimeframeToToday"
+            android:textOff="@string/button_today"
+            android:textOn="@string/button_today" />
+
+        <ToggleButton
+            android:id="@+id/buttonTomorrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="setTimeframeToTomorrow"
+            android:textOff="@string/button_tomorrow"
+            android:textOn="@string/button_tomorrow" />
+
+        <ToggleButton
+            android:id="@+id/buttonTwoDaysOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="setTimeframeToTwoDaysOut"
+            android:textOff="@string/button_two_days_out"
+            android:textOn="@string/button_two_days_out" />
+    </LinearLayout>
+
+    <com.google.android.maps.MapView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/linearLayoutTimeframeModeButtons"
+        android:layout_above="@+id/imageviewLegend"
+        android:apiKey="0D1jpN2fasf3RQcT5YKirZQl8Ae3En6IWzOqyig"
+        android:clickable="true" />
+    
+    <ImageView
+        android:id="@id/imageviewLegend"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/imageviewLegend"
+        android:src="@drawable/legend4" />
+
+</RelativeLayout>
