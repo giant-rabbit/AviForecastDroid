@@ -2,6 +2,7 @@ package com.sebnarware.avalanche;
 
 import java.util.List;
 
+//import com.flurry.android.FlurryAgent;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -34,6 +35,20 @@ public class MainActivity extends MapActivity implements DataListener {
 	private ToggleButton buttonTomorrow;
 	private ToggleButton buttonTwoDaysOut;
 
+//	@Override
+//	protected void onStart()
+//	{
+//		super.onStart();
+//		FlurryAgent.onStartSession(this, "29QWBK7Z3ZYCY8CBHGM5");
+//	}
+//	 
+//	@Override
+//	protected void onStop()
+//	{
+//		super.onStop();		
+//		FlurryAgent.onEndSession(this);
+//	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
