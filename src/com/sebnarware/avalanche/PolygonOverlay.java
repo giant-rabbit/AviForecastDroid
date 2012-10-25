@@ -119,7 +119,7 @@ public class PolygonOverlay extends Overlay {
 		    Intent intent = new Intent(this.context, WebViewActivity.class);
 		    String url = this.regionData.getURL();
 		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL, url);
-			Log.i(TAG, "onTap starting web view; url: " + url);
+			Log.i(TAG, "onTap starting web view activity; url: " + url);
 			this.context.startActivity(intent);
 		}
 

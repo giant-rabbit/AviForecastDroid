@@ -7,6 +7,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +36,7 @@ public class MainActivity extends MapActivity implements DataListener {
     	
     	Log.i(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
             
         
         // data stuff (network and JSON)
@@ -77,10 +79,14 @@ public class MainActivity extends MapActivity implements DataListener {
         
         // set up legend with a click action
         ImageView imageViewLegend = (ImageView) findViewById(R.id.imageviewLegend);
+        final Context self = this; 
         imageViewLegend.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick called for legend image view");
+                Log.i(TAG, "onClick called for legend image view; starting danger scale activity");
+                
+    		    Intent intent = new Intent(self, DangerScaleActivity.class);
+    			self.startActivity(intent);
             }
         });
     }

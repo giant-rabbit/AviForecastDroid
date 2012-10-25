@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:clickable="true"
-        android:contentDescription="@string/imageviewLegend"
+        android:contentDescription="@string/image_view_legend_content_description"
         android:src="@drawable/legend4" />
 
 </RelativeLayout>
