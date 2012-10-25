@@ -5,10 +5,13 @@
     <string name="button_today">Today</string>
     <string name="button_tomorrow">Tomorrow</string>
     <string name="button_two_days_out">Two Days Out</string>
-    <string name="title_activity_web_view">Detailed Forecast</string>
+    <string name="activity_web_view_title">Detailed Forecast</string>
     <string name="image_view_legend_content_description">Legend</string>
-    <string name="title_activity_danger_scale">Danger Scale</string>
+    <string name="activity_danger_scale_title">Danger Scale</string>
     <string name="image_view_danger_scale_content_description">Danger Scale</string>
     <string name="menuitem_info">Info</string>
+    <string name="dialog_info_title">How To Use</string>
+    <string name="dialog_info_message">Each avalanche forecast region is colored based on the overall danger level\n\n- Use the buttons at the top to select the forecast timeframe\n\n- Tap the bottom legend to see descriptions of the danger levels\n\n- Click a region on the map to go to the detailed avalanche forecast</string>
+    <string name="dialog_info_positive_button">OK</string>
 
 </resources>

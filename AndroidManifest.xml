@@ -28,14 +28,14 @@
         </activity>
         <activity
             android:name=".WebViewActivity"
-            android:label="@string/title_activity_web_view" >
+            android:label="@string/activity_web_view_title" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sebnarware.avalanche.MainActivity" />
         </activity>
         <activity
             android:name=".DangerScaleActivity"
-            android:label="@string/title_activity_danger_scale" >
+            android:label="@string/activity_danger_scale_title" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sebnarware.avalanche.MainActivity" />

@@ -8,7 +8,11 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +29,7 @@ public class MainActivity extends MapActivity implements DataListener {
     public final static String INTENT_EXTRA_WEB_VIEW_URL = "com.sebnarware.avalanche.WEB_VIEW_URL";
 
     private static final String TAG = "MainActivity";
-
+    private static final int INFO_DIALOG = 1;
     private static final int DEFAULT_MAP_ZOOM_LEVEL = 8;
 
     private DataManager dataManager;
@@ -202,11 +206,30 @@ public class MainActivity extends MapActivity implements DataListener {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	        case R.id.menuitem_info:
-	    		Log.i(TAG, "onOptionsItemSelected got click on info");
+	    		Log.i(TAG, "onOptionsItemSelected received click on info");
+	    		showDialog(INFO_DIALOG);
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case INFO_DIALOG:
+			Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.dialog_info_title);
+			builder.setMessage(R.string.dialog_info_message);
+			builder.setPositiveButton(R.string.dialog_info_positive_button, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+		    		Log.i(TAG, "CancelOnClickListener ok clicked");
+				}
+			});
+			AlertDialog dialog = builder.create();
+			dialog.show();
+		}
+		return super.onCreateDialog(id);
 	}
 	
 }
