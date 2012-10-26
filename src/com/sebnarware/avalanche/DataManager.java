@@ -96,28 +96,32 @@ public class DataManager {
 	        			JSONObject regionJSON = response.getJSONObject(i);
 	        			String regionId = regionJSON.getString("regionId");
 	        			
+	        			ForecastDay[] forecast = null; 
 	        			// NOTE forecast may be null, if no forecast is currently available for this region
 	        			if (!regionJSON.isNull("forecast")) {
 	        				
 	        				JSONArray forecastJSON = regionJSON.getJSONArray("forecast");
 	        			
-		        			ForecastDay[] forecast = new ForecastDay[forecastJSON.length()];
+		        			forecast = new ForecastDay[forecastJSON.length()];
 		        			for (int j = 0; j < forecastJSON.length(); j++) {
 		        				JSONObject forecastDayJSON = forecastJSON.getJSONObject(j);
 		        				String date = forecastDayJSON.getString("date");
 		        				int aviLevel = forecastDayJSON.getInt("aviLevel");
 		        				forecast[j] = new ForecastDay(date, aviLevel);
 		        			}
-		        			
-		        			// set the forecast on the region
-		        			RegionData regionData = regions.get(regionId);
-		        			regionData.setForecast(forecast);
+
 			        		Log.d(TAG, "loadForecasts loaded forecast for region: " + regionId);
 			        		validForecastCount++;
-			        		
-			        		// call the listener
-			        		dataListener.forecastUpdated(regionData);
+	        			} else {
+			        		Log.d(TAG, "loadForecasts null forecast for region: " + regionId);
 	        			}
+	        			
+	        			// set the forecast on the region
+	        			RegionData regionData = regions.get(regionId);
+	        			regionData.setForecast(forecast);
+		        		
+		        		// call the listener
+		        		dataListener.forecastUpdated(regionData);
 	        		}
 	        		
 	        		Log.i(TAG, "loadForecasts total count of non-null forecasts received: " + validForecastCount);
