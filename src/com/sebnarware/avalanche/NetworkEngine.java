@@ -80,7 +80,7 @@ public class NetworkEngine {
 
     }
     
-    public boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		boolean networkAvailable = activeNetworkInfo != null;
