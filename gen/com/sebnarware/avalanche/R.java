@@ -47,6 +47,9 @@ public final class R {
          */
         public static final int days_before_reminding=0x7f040004;
         public static final int days_until_prompt=0x7f040002;
+        public static final int dialog_disclaimer_message=0x7f040013;
+        public static final int dialog_disclaimer_positive_button=0x7f040014;
+        public static final int dialog_disclaimer_title=0x7f040012;
         public static final int dialog_info_message=0x7f040010;
         public static final int dialog_info_positive_button=0x7f040011;
         public static final int dialog_info_title=0x7f04000f;

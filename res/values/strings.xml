@@ -13,5 +13,8 @@
     <string name="dialog_info_title">How To Use</string>
     <string name="dialog_info_message">Each avalanche forecast region is colored based on the overall danger level\n\n- Use the buttons at the top to select the forecast timeframe\n\n- Tap the bottom legend to see descriptions of the danger levels\n\n- Click a region on the map to go to the detailed avalanche forecast</string>
     <string name="dialog_info_positive_button">OK</string>
-
+    <string name="dialog_disclaimer_title">Warranty Disclaimer</string>
+    <string name="dialog_disclaimer_message">This product, including all information shown, is provided \'as is\'. Sebnarware makes no warranty or representation of any kind. Sebnarware does not warrant that the product or information is error free, nor that service will be uninterrupted. In no event shall Sebnarware be liable for any damages (including without limitation, where use of the product could lead to death or personal injury).</string>
+    <string name="dialog_disclaimer_positive_button">I Agree</string>
+    
 </resources>

@@ -15,7 +15,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +33,10 @@ public class MainActivity extends MapActivity implements DataListener {
     public final static String INTENT_EXTRA_WEB_VIEW_URL = "com.sebnarware.avalanche.WEB_VIEW_URL";
 
     private static final String TAG = "MainActivity";
-    private static final int INFO_DIALOG = 1;
+    
+    private static final String PREFS_ACCEPTED_DISCLAIMER = "AcceptedDisclaimer";
+    private static final int DISCLAIMER_DIALOG = 1;
+    private static final int INFO_DIALOG = 2;
     private static final int DEFAULT_MAP_ZOOM_LEVEL = 8;
 
     private DataManager dataManager;
@@ -61,6 +67,15 @@ public class MainActivity extends MapActivity implements DataListener {
     	Log.i(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        
+        // check if the user has already accepted the disclaimer
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean(PREFS_ACCEPTED_DISCLAIMER, false)) {
+        	// show it
+    		showDialog(DISCLAIMER_DIALOG);
+        }
+        
         
         
         // BUGBUG crashing with java.lang.NoClassDefFoundError: com.sbstrm.appirater.R$string
@@ -225,18 +240,47 @@ public class MainActivity extends MapActivity implements DataListener {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case INFO_DIALOG:
-			Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.dialog_info_title);
-			builder.setMessage(R.string.dialog_info_message);
-			builder.setPositiveButton(R.string.dialog_info_positive_button, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-		    		Log.i(TAG, "CancelOnClickListener ok clicked");
-				}
-			});
-			AlertDialog dialog = builder.create();
-			dialog.show();
+			showInfoDialog();
+			break;
+		case DISCLAIMER_DIALOG:
+			showDisclaimerDialog();
+			break;
 		}
 		return super.onCreateDialog(id);
+	}
+
+	private void showInfoDialog() {
+		Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.dialog_info_title);
+		builder.setMessage(R.string.dialog_info_message);
+		builder.setPositiveButton(R.string.dialog_info_positive_button, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Log.i(TAG, "info dialog ok clicked");
+			}
+		});
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
+
+	private void showDisclaimerDialog() {
+		Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.dialog_disclaimer_title);
+		builder.setMessage(R.string.dialog_disclaimer_message);
+		builder.setCancelable(false);
+		final Context self = this;
+		builder.setPositiveButton(R.string.dialog_disclaimer_positive_button, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Log.i(TAG, "disclaimer dialog ok clicked");
+				
+				// record that the user has accepted the disclaimer
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(self);
+				Editor editor = prefs.edit();
+				editor.putBoolean(PREFS_ACCEPTED_DISCLAIMER, true);
+				editor.commit();
+			}
+		});
+		AlertDialog dialog = builder.create();
+		dialog.show();
 	}
 	
 }
