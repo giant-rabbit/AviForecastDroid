@@ -11,15 +11,13 @@ public class RegionData {
 	
     private static final String TAG = "RegionData";
 
-	private DataManager dataManager;
 	private String regionId; 
 	private String displayName;
 	private String URL;
 	private GeoPoint[] polygon;
 	private ForecastDay[] forecast;
 
-	public RegionData(DataManager dataManager, String regionId, String displayName, String URL, GeoPoint[] polygon) {
-		this.dataManager = dataManager;
+	public RegionData(String regionId, String displayName, String URL, GeoPoint[] polygon) {
 	    this.regionId = regionId;
 	    this.displayName = displayName;
 	    this.URL = URL;
@@ -50,9 +48,7 @@ public class RegionData {
 		return forecast;
 	}
 	
-	public int aviLevelForCurrentTimeframeMode() {
-		
-		TimeframeMode timeframeMode = dataManager.getTimeframeMode();
+	public int aviLevelForTimeframeMode(TimeframeMode timeframeMode) {
 		
 		int offsetDays = 0;
 		switch (timeframeMode) {

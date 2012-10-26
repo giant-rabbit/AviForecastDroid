@@ -1,6 +1,5 @@
 package com.sebnarware.avalanche;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -18,23 +17,10 @@ public class PolygonOverlay extends Overlay {
 
 	private static final int OVERLAY_ALPHA = (int) (0.65 * 255);
 	
-	private Context context; 
 	private RegionData regionData;
-	private Paint paintOutline;
 
-	public PolygonOverlay(Context context, RegionData regionData) {
-		
-		this.context= context;
-		
+	public PolygonOverlay(RegionData regionData) {
 	    this.regionData = regionData;
-
-	    this.paintOutline = new Paint();
-	    this.paintOutline.setARGB(OVERLAY_ALPHA, 0, 0, 0);
-	    this.paintOutline.setStrokeWidth(2);
-	    this.paintOutline.setStrokeCap(Paint.Cap.ROUND);
-	    this.paintOutline.setAntiAlias(true);
-	    this.paintOutline.setDither(false);
-	    this.paintOutline.setStyle(Paint.Style.STROKE);
 	}
 	
 	@Override
@@ -59,12 +45,21 @@ public class PolygonOverlay extends Overlay {
 		    }
 		    path.close();
 
+		    Paint paintOutline = new Paint();
+		    paintOutline.setARGB(OVERLAY_ALPHA, 0, 0, 0);
+		    paintOutline.setStrokeWidth(2);
+		    paintOutline.setStrokeCap(Paint.Cap.ROUND);
+		    paintOutline.setAntiAlias(true);
+		    paintOutline.setDither(false);
+		    paintOutline.setStyle(Paint.Style.STROKE);
+
 		    // get the appropriate avi level fill color (based on the forecast for the region and the timeframe mode)
-		    int aviLevel = this.regionData.aviLevelForCurrentTimeframeMode();
+		    TimeframeMode timeframeMode = MainActivity.getDataManager().getTimeframeMode();
+		    int aviLevel = this.regionData.aviLevelForTimeframeMode(timeframeMode);
 		    Paint paintFill = getColorForAviLevel(aviLevel); 
 		    
 		    // draw the outline, and the fill
-		    canvas.drawPath(path, this.paintOutline);
+		    canvas.drawPath(path, paintOutline);
 		    canvas.drawPath(path, paintFill);
 	    }
 	}
@@ -116,11 +111,11 @@ public class PolygonOverlay extends Overlay {
 			Log.i(TAG, "onTap tap was in polygon of region: " + this.regionData.getRegionId());
 			
 			// start the web view activity
-		    Intent intent = new Intent(this.context, WebViewActivity.class);
+		    Intent intent = new Intent(MainActivity.getMainActivity(), WebViewActivity.class);
 		    String url = this.regionData.getURL();
 		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL, url);
 			Log.i(TAG, "onTap starting web view activity; url: " + url);
-			this.context.startActivity(intent);
+			MainActivity.getMainActivity().startActivity(intent);
 		}
 
 		return pointInPolygon;

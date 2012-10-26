@@ -13,16 +13,15 @@ public class DataManager {
 	
     private static final String TAG = "DataManager";
 
+	private TimeframeMode timeframeMode;
     private DataListener dataListener; 
 	private NetworkEngine networkEngine = new NetworkEngine();
 	private HashMap<String, RegionData> regions = new HashMap<String, RegionData>();
-	private TimeframeMode timeframeMode;
 	
-	public DataManager(DataListener dataListener) {
-		this.dataListener = dataListener;
+	public DataManager() {
         this.timeframeMode = TimeframeMode.Today;
 	}
-	
+
 	public TimeframeMode getTimeframeMode() {
 		return timeframeMode;
 	}
@@ -31,9 +30,16 @@ public class DataManager {
 		this.timeframeMode = timeframeMode;
 	}
 
+	public DataListener getDataListener() {
+		return dataListener;
+	}
+
+	public void setDataListener(DataListener dataListener) {
+		this.dataListener = dataListener;
+	}
+
 	public void loadRegions() {
 		
-		final DataManager self = this; 
 		networkEngine.loadRegions(new JsonHttpResponseHandler() {
 	        @Override
 	        public void onSuccess(JSONArray response) {
@@ -58,9 +64,9 @@ public class DataManager {
 	        			}
 	        			
 	        			// create the region data, and add it to our set
-	        			RegionData regionData = new RegionData(self, regionId, displayName, URL, polygon);
+	        			RegionData regionData = new RegionData(regionId, displayName, URL, polygon);
 	        			regions.put(regionId, regionData);
-		        		Log.i(TAG, "loadRegions created region: " + regionId);
+		        		Log.d(TAG, "loadRegions created region: " + regionId);
 		        		
 		        		// call the listener
 		        		dataListener.regionAdded(regionData);
@@ -114,7 +120,7 @@ public class DataManager {
 		        			// set the forecast on the region
 		        			RegionData regionData = regions.get(regionId);
 		        			regionData.setForecast(forecast);
-			        		Log.i(TAG, "loadForecasts loaded forecast for region: " + regionId);
+			        		Log.d(TAG, "loadForecasts loaded forecast for region: " + regionId);
 			        		validForecastCount++;
 			        		
 			        		// call the listener

@@ -3,11 +3,12 @@ package com.sebnarware.avalanche;
 import java.util.List;
 
 //import com.flurry.android.FlurryAgent;
+//import com.sbstrm.appirater.Appirater;
+
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
-//import com.sbstrm.appirater.Appirater;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -17,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -33,40 +35,37 @@ public class MainActivity extends MapActivity implements DataListener {
     public final static String INTENT_EXTRA_WEB_VIEW_URL = "com.sebnarware.avalanche.WEB_VIEW_URL";
 
     private static final String TAG = "MainActivity";
-    
+
+    private static MainActivity mainActivity;
+    private static DataManager dataManager;
+
     private static final String PREFS_ACCEPTED_DISCLAIMER = "AcceptedDisclaimer";
     private static final int DISCLAIMER_DIALOG = 1;
     private static final int INFO_DIALOG = 2;
     private static final int DEFAULT_MAP_ZOOM_LEVEL = 8;
 
-    private DataManager dataManager;
 	private MapView mapView;
 	private MyLocationOverlay myLocationOverlay;
 	private ToggleButton buttonToday;
 	private ToggleButton buttonTomorrow;
 	private ToggleButton buttonTwoDaysOut;
+		
+    public static DataManager getDataManager() {
+		return MainActivity.dataManager;
+	}
 
-	// BUGBUG flurry logging commented out until we are closer to launch
-//	@Override
-//	protected void onStart()
-//	{
-//		super.onStart();
-//		FlurryAgent.onStartSession(this, "29QWBK7Z3ZYCY8CBHGM5");
-//	}
-//	 
-//	@Override
-//	protected void onStop()
-//	{
-//		super.onStop();		
-//		FlurryAgent.onEndSession(this);
-//	}
-	
-    @Override
+	public static MainActivity getMainActivity() {
+		return mainActivity;
+	}
+
+	@Override
     public void onCreate(Bundle savedInstanceState) {
     	
     	Log.i(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        MainActivity.mainActivity = this;
         
         
         // check if the user has already accepted the disclaimer
@@ -77,15 +76,24 @@ public class MainActivity extends MapActivity implements DataListener {
         }
         
         
-        
         // BUGBUG crashing with java.lang.NoClassDefFoundError: com.sbstrm.appirater.R$string
-//        // start appirater
+        // start appirater
 //        Appirater.appLaunched(this);
         
         
-        // data stuff (network and JSON)
-        dataManager = new DataManager(this);
-        dataManager.loadRegions(); 
+        // get our data
+        // NOTE we store the data manager in a static activity variable, so that even if the activity gets 
+        // restarted (for example, on an orientation change) we don't have to reload the region data
+        if (MainActivity.dataManager == null) {
+        	// load everything
+            MainActivity.dataManager = new DataManager();
+            MainActivity.dataManager.setDataListener(this);
+            MainActivity.dataManager.loadRegions(); 
+        } else {
+        	// just load the forecasts
+            MainActivity.dataManager.setDataListener(this);
+            MainActivity.dataManager.loadForecasts(); 
+        }
 	    
         
         // map view
@@ -134,6 +142,29 @@ public class MainActivity extends MapActivity implements DataListener {
             }
         });
     }
+	 
+	@Override
+	protected void onDestroy()
+	{
+   	Log.i(TAG, "onDestroy called");
+		super.onDestroy();		
+	}
+	
+	@Override
+	protected void onStart()
+	{
+    	Log.i(TAG, "onStart called");
+		super.onStart();
+//		FlurryAgent.onStartSession(this, "29QWBK7Z3ZYCY8CBHGM5");
+	}
+	 
+	@Override
+	protected void onStop()
+	{
+    	Log.i(TAG, "onStop called");
+		super.onStop();		
+//		FlurryAgent.onEndSession(this);
+	}
 
 	@Override
 	protected void onResume() {
@@ -152,7 +183,13 @@ public class MainActivity extends MapActivity implements DataListener {
 		// when our activity pauses, we want to stop listening for location updates
 		myLocationOverlay.disableMyLocation();
 	}
-	   
+	
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+    	Log.i(TAG, "onConfigurationChanged called");
+        super.onConfigurationChanged(newConfig);
+    }
+
 	@Override
 	protected boolean isRouteDisplayed() {
 	    return false;
@@ -160,17 +197,19 @@ public class MainActivity extends MapActivity implements DataListener {
 	
 	@Override
 	public void regionAdded(RegionData regionData) {
-	    PolygonOverlay overlay = new PolygonOverlay(this, regionData);
-	    List<Overlay> mapOverlays = mapView.getOverlays();
-	    mapOverlays.add(overlay);
 	    
-	    // force a redraw
-	    mapView.invalidate();
+	    // do nothing
 	}
 
 	@Override
 	public void forecastUpdated(RegionData regionData) {
 		
+		// add the overlay
+		// NOTE assumption here is that any previous overlay for this region has already been cleared out
+	    PolygonOverlay overlay = new PolygonOverlay(regionData);
+	    List<Overlay> mapOverlays = mapView.getOverlays();
+	    mapOverlays.add(overlay);
+
 	    // force a redraw
 	    mapView.invalidate();
 	}
