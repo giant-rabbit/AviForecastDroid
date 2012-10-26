@@ -7,6 +7,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
+//import com.sbstrm.appirater.Appirater;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -39,6 +40,7 @@ public class MainActivity extends MapActivity implements DataListener {
 	private ToggleButton buttonTomorrow;
 	private ToggleButton buttonTwoDaysOut;
 
+	// BUGBUG flurry logging commented out until we are closer to launch
 //	@Override
 //	protected void onStart()
 //	{
@@ -59,7 +61,12 @@ public class MainActivity extends MapActivity implements DataListener {
     	Log.i(TAG, "onCreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-            
+        
+        
+        // BUGBUG crashing with java.lang.NoClassDefFoundError: com.sbstrm.appirater.R$string
+//        // start appirater
+//        Appirater.appLaunched(this);
+        
         
         // data stuff (network and JSON)
         dataManager = new DataManager(this);
