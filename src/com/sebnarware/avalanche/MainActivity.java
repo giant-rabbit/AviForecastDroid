@@ -87,12 +87,10 @@ public class MainActivity extends MapActivity implements DataListener {
         if (MainActivity.dataManager == null) {
         	// load everything
             MainActivity.dataManager = new DataManager();
-            MainActivity.dataManager.setDataListener(this);
-            MainActivity.dataManager.loadRegions(); 
+            MainActivity.dataManager.loadRegionsAndForecasts(this, this); 
         } else {
         	// just load the forecasts
-            MainActivity.dataManager.setDataListener(this);
-            MainActivity.dataManager.loadForecasts(); 
+            MainActivity.dataManager.loadForecasts(this, this); 
         }
 	    
         

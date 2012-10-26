@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.json.*;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
@@ -14,7 +15,6 @@ public class DataManager {
     private static final String TAG = "DataManager";
 
 	private TimeframeMode timeframeMode;
-    private DataListener dataListener; 
 	private NetworkEngine networkEngine = new NetworkEngine();
 	private HashMap<String, RegionData> regions = new HashMap<String, RegionData>();
 	
@@ -30,15 +30,7 @@ public class DataManager {
 		this.timeframeMode = timeframeMode;
 	}
 
-	public DataListener getDataListener() {
-		return dataListener;
-	}
-
-	public void setDataListener(DataListener dataListener) {
-		this.dataListener = dataListener;
-	}
-
-	public void loadRegions() {
+	public void loadRegionsAndForecasts(final DataListener dataListener, final Context context) {
 		
 		networkEngine.loadRegions(new JsonHttpResponseHandler() {
 	        @Override
@@ -75,7 +67,7 @@ public class DataManager {
 	        		Log.i(TAG, "loadRegions total count of regions created: " + regions.size());
 	        		
 	        		// now, go load the forecasts
-	        		loadForecasts();
+	        		loadForecasts(dataListener, context);
 
 	        	} catch (JSONException e) {
 	            	Log.w(TAG, "loadRegions JSON parsing failure; error: " + e.toString());
@@ -89,8 +81,8 @@ public class DataManager {
 	    });
 	}
 
-	public void loadForecasts() {
-		
+	public void loadForecasts(final DataListener dataListener, final Context context) {
+
 		networkEngine.loadForecasts(new JsonHttpResponseHandler() {
 	        @Override
 	        public void onSuccess(JSONArray response) {
