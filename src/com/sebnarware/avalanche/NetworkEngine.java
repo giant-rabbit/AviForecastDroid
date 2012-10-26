@@ -51,7 +51,7 @@ public class NetworkEngine {
     	
     	// NOTE use the last path element of the url as the key
     	// BUGBUG could come up with a better algorithm here to avoid collisions
-    	final String key = url.substring(url.lastIndexOf('-') + 1);
+    	final String key = url.substring(url.lastIndexOf("/") + 1);
     	
 		client.get(url, new JsonHttpResponseHandler() {
 	        @Override
