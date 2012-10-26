@@ -289,7 +289,15 @@ public class MainActivity extends MapActivity implements DataListener {
 	private void showInfoDialog() {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.dialog_info_title);
-		builder.setMessage(R.string.dialog_info_message);
+		String versionName = "";
+		int versionCode = 0;
+		try {
+			versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;  
+			versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+		} catch (Exception e) {
+			Log.w(TAG, "could not get package info");
+		}
+		builder.setMessage(String.format(getResources().getString(R.string.dialog_info_message), versionName, versionCode));
 		builder.setPositiveButton(R.string.dialog_info_positive_button, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				Log.i(TAG, "info dialog ok clicked");
