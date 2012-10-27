@@ -38,12 +38,14 @@ public class WebViewActivity extends Activity {
         // enable javascript
         webView.getSettings().setJavaScriptEnabled(true);
 
-		// enable progress bar for loading, part 2
+		// enable activity indicator during loading
 		webView.setWebChromeClient(new WebChromeClient() {
 			public void onProgressChanged(WebView view, int progress) {
 				if (progress == 100) {
+					// all done
 			        setProgressBarIndeterminateVisibility(false);
 				} else {
+					// in progress
 					setProgressBarIndeterminateVisibility(true);
 				}
 			}

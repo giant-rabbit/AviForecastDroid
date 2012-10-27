@@ -2,12 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <ImageView
-        android:id="@+id/imageviewDangerScale"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:contentDescription="@string/image_view_danger_scale_content_description"
-        android:src="@drawable/danger_scale_front" />
         
+    <WebView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:id="@+id/webview" 
+	/>
+    
 </RelativeLayout>
