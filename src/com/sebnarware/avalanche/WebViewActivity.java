@@ -46,7 +46,11 @@ public class WebViewActivity extends Activity {
 				self.setProgress(progress * 1000);
 			}
 		});
-
+		
+	    // NOTE set our user agent string to something benign and non-mobile looking, to work around website
+	    // popups from nwac.us asking if you would like to be redirected to the mobile version of the site
+		webView.getSettings().setUserAgentString("Mozilla/5.0");
+		
         // get the desired url from the intent
         Intent intent = getIntent();
         String url = intent.getStringExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL);
