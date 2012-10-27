@@ -17,9 +17,10 @@ public class WebViewActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
-        // enable progress bar for loading, part 1
-    	// NOTE must happen before content is added
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+    	
+    	// get access to the activity indicator
+       	// NOTE must happen before content is added
+    	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
@@ -38,12 +39,11 @@ public class WebViewActivity extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
 
 		// enable progress bar for loading, part 2
-		final Activity self = this;
 		webView.setWebChromeClient(new WebChromeClient() {
 			public void onProgressChanged(WebView view, int progress) {
-				// NOTE activities and webviews measure progress with different scales;
-				// the progress meter will automatically disappear when we reach 100%
-				self.setProgress(progress * 1000);
+				if (progress == 100) {
+			        setProgressBarIndeterminateVisibility(false);
+				}
 			}
 		});
 		
@@ -63,6 +63,7 @@ public class WebViewActivity extends Activity {
             webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
         
+        setProgressBarIndeterminateVisibility(true);
         webView.loadUrl(url);
     }
 

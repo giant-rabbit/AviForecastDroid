@@ -64,7 +64,8 @@ public class MainActivity extends MapActivity implements DataListener {
     	
     	Log.i(TAG, "onCreate called");
     	
-    	// activity indicator
+    	// get access to the activity indicator
+       	// NOTE must happen before content is added
     	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);
