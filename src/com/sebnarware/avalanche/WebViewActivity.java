@@ -43,6 +43,8 @@ public class WebViewActivity extends Activity {
 			public void onProgressChanged(WebView view, int progress) {
 				if (progress == 100) {
 			        setProgressBarIndeterminateVisibility(false);
+				} else {
+					setProgressBarIndeterminateVisibility(true);
 				}
 			}
 		});
@@ -63,7 +65,6 @@ public class WebViewActivity extends Activity {
             webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
         
-        setProgressBarIndeterminateVisibility(true);
         webView.loadUrl(url);
     }
 
