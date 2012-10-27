@@ -72,14 +72,14 @@ public class DataManager {
 
 	        	} catch (JSONException e) {
 	            	Log.w(TAG, "loadRegions JSON parsing failure; error: " + e.toString());
-	            	dataListener.dataFetchDone();
+	            	dataListener.dataFetchDone(e);
 	        	}
 	        }
 	        
 	        @Override
 	        public void onFailure(Throwable error, String content) {
 	        	Log.w(TAG, "loadRegions network failure; error: " + error.toString() + "; content: " + content);
-            	dataListener.dataFetchDone();
+            	dataListener.dataFetchDone(error);
 	        }
 	    });
 	}
@@ -128,18 +128,18 @@ public class DataManager {
 	        		}
 	        		
 	        		Log.i(TAG, "loadForecasts total count of non-null forecasts received: " + validForecastCount);
-	            	dataListener.dataFetchDone();
+	            	dataListener.dataFetchDone(null);
 
 	        	} catch (JSONException e) {
 	            	Log.w(TAG, "loadForecasts JSON parsing failure; error: " + e.toString());
-	            	dataListener.dataFetchDone();
+	            	dataListener.dataFetchDone(e);
 	        	}
 	        }
 	        
 	        @Override
 	        public void onFailure(Throwable error, String content) {
 	        	Log.w(TAG, "loadForecasts network failure; error: " + error.toString() + "; content: " + content);
-            	dataListener.dataFetchDone();
+            	dataListener.dataFetchDone(error);
 	        }
 	    });
 	}

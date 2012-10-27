@@ -64,5 +64,6 @@ public final class R {
         /**  Change to 1 to show every time, for testing 
          */
         public static final int test_mode=0x7f040005;
+        public static final int toast_data_fetch_failure=0x7f040015;
     }
 }

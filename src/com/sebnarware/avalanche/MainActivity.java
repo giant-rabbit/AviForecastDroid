@@ -2,7 +2,7 @@ package com.sebnarware.avalanche;
 
 import java.util.List;
 
-//import com.flurry.android.FlurryAgent;
+import com.flurry.android.FlurryAgent;
 //import com.sbstrm.appirater.Appirater;
 
 import com.google.android.maps.MapActivity;
@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MainActivity extends MapActivity implements DataListener {
@@ -160,7 +161,7 @@ public class MainActivity extends MapActivity implements DataListener {
 	{
     	Log.i(TAG, "onStart called");
 		super.onStart();
-//		FlurryAgent.onStartSession(this, "29QWBK7Z3ZYCY8CBHGM5");
+		FlurryAgent.onStartSession(this, "29QWBK7Z3ZYCY8CBHGM5");
 	}
 	 
 	@Override
@@ -168,7 +169,7 @@ public class MainActivity extends MapActivity implements DataListener {
 	{
     	Log.i(TAG, "onStop called");
 		super.onStop();		
-//		FlurryAgent.onEndSession(this);
+		FlurryAgent.onEndSession(this);
 	}
 
 	@Override
@@ -220,8 +221,14 @@ public class MainActivity extends MapActivity implements DataListener {
 	}
 
 	@Override
-	public void dataFetchDone() {
+	public void dataFetchDone(Throwable error) {
         setProgressBarIndeterminateVisibility(false);
+        
+        if (error != null) {
+        	Toast.makeText(this, R.string.toast_data_fetch_failure, Toast.LENGTH_SHORT).show();
+        	// BUGBUG we don't currently give a way to try to reload the regions... so we rely on the user 
+        	// having loaded them at least once successfully, to get them into the persistent cache
+        }
 	}
 
 	public void setTimeframeToToday(View view) {
