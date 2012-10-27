@@ -27,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
 
@@ -62,6 +63,10 @@ public class MainActivity extends MapActivity implements DataListener {
     public void onCreate(Bundle savedInstanceState) {
     	
     	Log.i(TAG, "onCreate called");
+    	
+    	// activity indicator
+    	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
@@ -84,10 +89,11 @@ public class MainActivity extends MapActivity implements DataListener {
         // get our data
         // NOTE we store the data manager in a static activity variable, so that even if the activity gets 
         // restarted (for example, on an orientation change) we don't have to reload the region data
+        setProgressBarIndeterminateVisibility(true);
         if (MainActivity.dataManager == null) {
         	// load everything
             MainActivity.dataManager = new DataManager();
-            MainActivity.dataManager.loadRegionsAndForecasts(this, this); 
+            MainActivity.dataManager.loadRegionsAndForecasts(this, this);
         } else {
         	// just load the forecasts
             MainActivity.dataManager.loadForecasts(this, this); 
@@ -210,6 +216,11 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	    // force a redraw
 	    mapView.invalidate();
+	}
+
+	@Override
+	public void dataFetchDone() {
+        setProgressBarIndeterminateVisibility(false);
 	}
 
 	public void setTimeframeToToday(View view) {

@@ -67,16 +67,19 @@ public class DataManager {
 	        		Log.i(TAG, "loadRegions total count of regions created: " + regions.size());
 	        		
 	        		// now, go load the forecasts
+	        		// NOTE we don't call dataListener.dataFetchDone() here, as we have more fetching to do
 	        		loadForecasts(dataListener, context);
 
 	        	} catch (JSONException e) {
 	            	Log.w(TAG, "loadRegions JSON parsing failure; error: " + e.toString());
+	            	dataListener.dataFetchDone();
 	        	}
 	        }
 	        
 	        @Override
 	        public void onFailure(Throwable error, String content) {
 	        	Log.w(TAG, "loadRegions network failure; error: " + error.toString() + "; content: " + content);
+            	dataListener.dataFetchDone();
 	        }
 	    });
 	}
@@ -125,15 +128,18 @@ public class DataManager {
 	        		}
 	        		
 	        		Log.i(TAG, "loadForecasts total count of non-null forecasts received: " + validForecastCount);
+	            	dataListener.dataFetchDone();
 
 	        	} catch (JSONException e) {
 	            	Log.w(TAG, "loadForecasts JSON parsing failure; error: " + e.toString());
+	            	dataListener.dataFetchDone();
 	        	}
 	        }
 	        
 	        @Override
 	        public void onFailure(Throwable error, String content) {
 	        	Log.w(TAG, "loadForecasts network failure; error: " + error.toString() + "; content: " + content);
+            	dataListener.dataFetchDone();
 	        }
 	    });
 	}
