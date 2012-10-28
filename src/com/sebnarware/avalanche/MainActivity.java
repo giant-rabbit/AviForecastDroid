@@ -65,13 +65,19 @@ public class MainActivity extends MapActivity implements DataListener {
     	
     	Log.i(TAG, "onCreate called");
     	
+       	// NOTE window feature requests must happen before content is added
     	// get access to the activity indicator
-       	// NOTE must happen before content is added
     	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+    	// show our icon
+    	requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.logo);
+        
+        
+        // singleton
         MainActivity.mainActivity = this;
         
         
