@@ -8,14 +8,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linearLayoutTimeframeModeButtons"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
         <ToggleButton
             android:id="@+id/buttonToday"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:onClick="setTimeframeToToday"
             android:textOff="@string/button_today"
@@ -23,8 +23,8 @@
 
         <ToggleButton
             android:id="@+id/buttonTomorrow"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:onClick="setTimeframeToTomorrow"
             android:textOff="@string/button_tomorrow"
@@ -32,12 +32,22 @@
 
         <ToggleButton
             android:id="@+id/buttonTwoDaysOut"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:onClick="setTimeframeToTwoDaysOut"
             android:textOff="@string/button_two_days_out"
             android:textOn="@string/button_two_days_out" />
+
+		<ImageButton
+		    android:layout_width="0dp"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="0.5"
+		    android:onClick="onInfoButtonClick"
+		    android:scaleType="center"
+		    android:contentDescription="@string/button_info_content_description"
+		    android:src="@android:drawable/ic_menu_info_details" />
+		         
     </LinearLayout>
 
     <com.google.android.maps.MapView

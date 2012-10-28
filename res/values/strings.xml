@@ -4,7 +4,8 @@
     <string name="app_name">Avalanche</string>
     <string name="button_today">Today</string>
     <string name="button_tomorrow">Tomorrow</string>
-    <string name="button_two_days_out">Two Days Out</string>
+    <string name="button_two_days_out">2 Days Out</string>
+    <string name="button_info_content_description">Info</string>
     <string name="activity_web_view_title">Detailed Forecast</string>
     <string name="image_view_legend_content_description">Legend</string>
     <string name="activity_danger_scale_title">Danger Scale</string>

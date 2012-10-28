@@ -298,6 +298,10 @@ public class MainActivity extends MapActivity implements DataListener {
 	    }
 	}
 	
+	public void onInfoButtonClick(View view) {
+		showInfoDialog();
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
