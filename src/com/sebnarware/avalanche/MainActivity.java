@@ -3,7 +3,6 @@ package com.sebnarware.avalanche;
 import java.util.List;
 
 import com.flurry.android.FlurryAgent;
-//import com.sbstrm.appirater.Appirater;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -89,9 +88,8 @@ public class MainActivity extends MapActivity implements DataListener {
         }
         
         
-        // BUGBUG crashing with java.lang.NoClassDefFoundError: com.sbstrm.appirater.R$string
         // start appirater
-//        Appirater.appLaunched(this);
+        Appirater.appLaunched(this);
         
         
         // get our data

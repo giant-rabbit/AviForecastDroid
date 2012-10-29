@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="rate_title">Rate %s</string>
+    <string name="rate_message">If you enjoy using %s, would you mind taking a moment to rate it? Thanks for your support!</string>
+    <string name="rate">Yes, Rate %s</string>
+    <string name="rate_later">Remind me later</string>
+    <string name="rate_cancel">No, Thanks</string>
+    
     <!-- Change the market_url for other markets i.e. Amazon App Store
     	Google Play = market://details?id=%s
     	Amazon App Store = http://www.amazon.com/gp/mas/dl/android?p=%s
@@ -8,10 +14,10 @@
     <string name="market_url">market://details?id=%s</string>
     <string name="app_title">Avalanche</string>
     <string name="days_until_prompt">0</string>
-    <string name="launches_until_prompt">4</string>
+    <string name="launches_until_prompt">5</string>
     <!-- Set this to 0 to remind every launch -->
     <string name="days_before_reminding">1</string>
     <!-- Change to 1 to show every time, for testing -->
-    <string name="test_mode">1</string>
+    <string name="test_mode">0</string>
     
 </resources>
