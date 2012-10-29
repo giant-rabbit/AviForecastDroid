@@ -58,6 +58,7 @@ public final class R {
         public static final int dialog_info_message=0x7f040016;
         public static final int dialog_info_positive_button=0x7f040017;
         public static final int dialog_info_title=0x7f040015;
+        public static final int empty=0x7f04001c;
         public static final int image_view_danger_scale_content_description=0x7f040013;
         public static final int image_view_legend_content_description=0x7f040011;
         public static final int launches_until_prompt=0x7f040008;

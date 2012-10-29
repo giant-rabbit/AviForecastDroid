@@ -9,9 +9,18 @@
         android:id="@+id/linearLayoutTimeframeModeButtons"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
+        android:background="#B9B9B9"
         android:layout_alignParentTop="true"
         android:orientation="horizontal" >
 
+		<ImageButton
+		    android:layout_width="0dp"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="0.5"
+		    android:visibility="invisible"
+		    android:scaleType="center"
+		    android:contentDescription="@string/empty" />
+        
         <ToggleButton
             android:id="@+id/buttonToday"
             android:layout_width="0dp"
@@ -43,6 +52,7 @@
 		    android:layout_width="0dp"
 		    android:layout_height="fill_parent"
 		    android:layout_weight="0.5"
+		    android:background="#B9B9B9"
 		    android:onClick="onInfoButtonClick"
 		    android:scaleType="center"
 		    android:contentDescription="@string/button_info_content_description"
