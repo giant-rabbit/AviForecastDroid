@@ -67,8 +67,9 @@
         android:layout_height="fill_parent"
         android:layout_below="@id/linearLayoutTimeframeModeButtons"
         android:layout_above="@+id/imageviewLegend"
-        android:apiKey="0D1jpN2fasf3RQcT5YKirZQl8Ae3En6IWzOqyig"
-        android:clickable="true" />
+        android:clickable="true"
+        android:apiKey="@string/map_key_debug" />
+    <!-- NOTE be sure to set set the api key above to either map_key_debug or map_key_production -->
     
     <ImageView
         android:id="@id/imageviewLegend"

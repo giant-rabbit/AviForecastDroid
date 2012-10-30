@@ -62,6 +62,8 @@ public final class R {
         public static final int image_view_danger_scale_content_description=0x7f040013;
         public static final int image_view_legend_content_description=0x7f040011;
         public static final int launches_until_prompt=0x7f040008;
+        public static final int map_key_debug=0x7f04001d;
+        public static final int map_key_production=0x7f04001e;
         /**  Change the market_url for other markets i.e. Amazon App Store
     	Google Play = market://details?id=%s
     	Amazon App Store = http://www.amazon.com/gp/mas/dl/android?p=%s
