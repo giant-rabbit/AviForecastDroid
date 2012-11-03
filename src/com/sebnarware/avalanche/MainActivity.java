@@ -76,7 +76,7 @@ public class MainActivity extends MapActivity implements DataListener {
         setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.logo);
         
         
-        // singleton
+        // set up our singleton
         MainActivity.mainActivity = this;
         
         
@@ -106,7 +106,7 @@ public class MainActivity extends MapActivity implements DataListener {
         }
 	    
         
-        // map view
+        // configure the map view
 	    mapView = (MapView) findViewById(R.id.mapview);
 	    mapView.setBuiltInZoomControls(true);
 

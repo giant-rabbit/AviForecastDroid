@@ -21,9 +21,14 @@ public class WebViewActivity extends Activity {
     	// get access to the activity indicator
        	// NOTE must happen before content is added
     	requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+    	// show our icon
+    	requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        
+        setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.logo);
+
         
         WebView webView = (WebView) findViewById(R.id.webview);
         
