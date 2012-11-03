@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Avalanche</string>
+    <string name="activity_main_title">Avalanche Forecasts</string>
     <string name="button_today">Today</string>
     <string name="button_tomorrow">Tomorrow</string>
     <string name="button_two_days_out">2 Days Out</string>
