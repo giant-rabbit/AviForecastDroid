@@ -27,6 +27,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:onClick="setTimeframeToToday"
+            android:textSize="11dp"
             android:textOff="@string/button_today"
             android:textOn="@string/button_today" />
 
@@ -36,6 +37,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:onClick="setTimeframeToTomorrow"
+            android:textSize="11dp"
             android:textOff="@string/button_tomorrow"
             android:textOn="@string/button_tomorrow" />
 
@@ -45,6 +47,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:onClick="setTimeframeToTwoDaysOut"
+            android:textSize="11dp"
             android:textOff="@string/button_two_days_out"
             android:textOn="@string/button_two_days_out" />
 
