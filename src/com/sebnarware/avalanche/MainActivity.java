@@ -29,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 public class MainActivity extends MapActivity implements DataListener {
 	
@@ -47,9 +46,6 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	private MapView mapView;
 	private MyLocationOverlay myLocationOverlay;
-	private ToggleButton buttonToday;
-	private ToggleButton buttonTomorrow;
-	private ToggleButton buttonTwoDaysOut;
 		
     public static DataManager getDataManager() {
 		return MainActivity.dataManager;
@@ -130,13 +126,6 @@ public class MainActivity extends MapActivity implements DataListener {
             	});
             }
         });
-	    
-	    
-        // set up mode timeframe mode buttons
-        buttonToday = (ToggleButton) findViewById(R.id.buttonToday);
-        buttonTomorrow = (ToggleButton) findViewById(R.id.buttonTomorrow);
-        buttonTwoDaysOut = (ToggleButton) findViewById(R.id.buttonTwoDaysOut);
-        setTimeframeMode(TimeframeMode.Today);
 
         
         // set up legend with a click action
@@ -252,26 +241,7 @@ public class MainActivity extends MapActivity implements DataListener {
 		Log.i(TAG, "setTimeframeMode setting mode to: " + timeframeMode);
 		
 		dataManager.setTimeframeMode(timeframeMode);
-		
-		// update button toggle states
-		switch (timeframeMode) {
-			case Today:
-				buttonToday.setChecked(true);
-				buttonTomorrow.setChecked(false);
-				buttonTwoDaysOut.setChecked(false);
-				break;
-			case Tomorrow:
-				buttonToday.setChecked(false);
-				buttonTomorrow.setChecked(true);
-				buttonTwoDaysOut.setChecked(false);
-				break;
-			case TwoDaysOut:
-				buttonToday.setChecked(false);
-				buttonTomorrow.setChecked(false);
-				buttonTwoDaysOut.setChecked(true);
-				break;
-		}
-		
+				
 	    // force a redraw
 	    mapView.invalidate();
 	}

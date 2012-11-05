@@ -21,36 +21,50 @@
 		    android:scaleType="center"
 		    android:contentDescription="@string/empty" />
         
-        <ToggleButton
-            android:id="@+id/buttonToday"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:onClick="setTimeframeToToday"
-            android:textSize="11dp"
-            android:textOff="@string/button_today"
-            android:textOn="@string/button_today" />
+		
+		<com.sebnarware.avalanche.SegmentedRadioGroup
+		    android:layout_width="0dp"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="3"
+		    android:layout_margin="5dp"
+		    android:checkedButton="@+id/buttonToday"
+		    android:orientation="horizontal">
 
-        <ToggleButton
-            android:id="@+id/buttonTomorrow"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:onClick="setTimeframeToTomorrow"
-            android:textSize="11dp"
-            android:textOff="@string/button_tomorrow"
-            android:textOn="@string/button_tomorrow" />
+		    <RadioButton android:id="@id/buttonToday"
+		        android:layout_width="0dp"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1"
+		        android:gravity="center"
+				android:textColor="@color/radio_colors"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+				android:button="@null"
+		        android:text="@string/button_today"
+		        android:onClick="setTimeframeToToday" />
 
-        <ToggleButton
-            android:id="@+id/buttonTwoDaysOut"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:onClick="setTimeframeToTwoDaysOut"
-            android:textSize="11dp"
-            android:textOff="@string/button_two_days_out"
-            android:textOn="@string/button_two_days_out" />
-
+		    <RadioButton android:id="@+id/buttonTomorrow"
+		        android:layout_width="0dp"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1"
+		        android:gravity="center"
+				android:textColor="@color/radio_colors"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+				android:button="@null"
+		        android:text="@string/button_tomorrow"
+		        android:onClick="setTimeframeToTomorrow" />
+		    
+		   <RadioButton android:id="@+id/buttonTwoDaysOut"
+		        android:layout_width="0dp"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1"
+		        android:gravity="center"
+				android:textColor="@color/radio_colors"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+				android:button="@null"
+		        android:text="@string/button_two_days_out"
+		        android:onClick="setTimeframeToTwoDaysOut" />
+		    		    
+		</com.sebnarware.avalanche.SegmentedRadioGroup>
+	 
 		<ImageButton
 		    android:layout_width="0dp"
 		    android:layout_height="fill_parent"
