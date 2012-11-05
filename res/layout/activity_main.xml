@@ -73,7 +73,7 @@
 		    android:onClick="onInfoButtonClick"
 		    android:scaleType="center"
 		    android:contentDescription="@string/button_info_content_description"
-		    android:src="@android:drawable/ic_menu_info_details" />
+		    android:src="@drawable/action_about" />
 		         
     </LinearLayout>
 
