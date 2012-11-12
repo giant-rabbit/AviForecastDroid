@@ -6,7 +6,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebSettings.ZoomDensity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -32,9 +31,12 @@ public class WebViewActivity extends Activity {
         
         WebView webView = (WebView) findViewById(R.id.webview);
         
-        // set a reasonable zoom and view mode
+        // show full page width by default
+        webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setDefaultZoom(ZoomDensity.FAR);
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+
+        // enable zooming
         webView.getSettings().setBuiltInZoomControls(true);
         
         // make link navigation stay within this webview, vs. launching the browser
