@@ -208,9 +208,6 @@ public class MainActivity extends MapActivity implements DataListener {
 	    PolygonOverlay overlay = new PolygonOverlay(regionData);
 	    List<Overlay> mapOverlays = mapView.getOverlays();
 	    mapOverlays.add(overlay);
-
-	    // force a redraw
-	    mapView.invalidate();
 	}
 
 	@Override
@@ -222,6 +219,9 @@ public class MainActivity extends MapActivity implements DataListener {
         	// BUGBUG we don't currently give a way to try to reload the regions... so we rely on the user 
         	// having loaded them at least once successfully, to get them into the persistent cache
         }
+
+	    // force a redraw
+	    mapView.invalidate();
 	}
 
 	public void setTimeframeToToday(View view) {
