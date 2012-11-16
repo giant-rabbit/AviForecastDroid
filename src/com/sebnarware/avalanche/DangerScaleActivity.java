@@ -26,8 +26,10 @@ public class DangerScaleActivity extends Activity {
         // set a reasonable zoom and view mode
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setDefaultZoom(ZoomDensity.FAR);
-        webView.getSettings().setBuiltInZoomControls(true);
         
+        // enable zooming
+        webView.getSettings().setBuiltInZoomControls(true);
+                
         webView.loadUrl("file:///android_asset/danger_scale_front.jpg");
     }
 
