@@ -28,10 +28,10 @@ public class PolygonOverlay extends Overlay {
 		initializePaintAviLevel(35, 31, 32)
 	};
 	
-	private static long totalTimeMillis = 0;
-	private static long totalPathTimeMillis = 0;
-	private static long totalDrawTimeMillis = 0;
-	private static long totalDrawCalls = 0;
+//	private static long totalTimeMillis = 0;
+//	private static long totalPathTimeMillis = 0;
+//	private static long totalDrawTimeMillis = 0;
+//	private static long totalDrawCalls = 0;
 
 	private RegionData regionData;
 	private GeoPoint bbTopLeft;
@@ -111,7 +111,7 @@ public class PolygonOverlay extends Overlay {
 			if (polygonOnscreen) {
 		    	
 				Log.i(TAG, "drawing polygon for region: " + this.regionData.getRegionId());
-	            final long startTimeMillis = System.currentTimeMillis();
+//	            final long startTimeMillis = System.currentTimeMillis();
 
 	            // check if the map position is the same
 	            boolean mapPositionTheSame = visibleTopLeft.equals(visibleTopLeftPrevious) && visibleBottomRight.equals(visibleBottomRightPrevious);
@@ -145,7 +145,7 @@ public class PolygonOverlay extends Overlay {
 	            	cachedPath = path;
 	            }
 	            
-	            final long middleTimeMillis = System.currentTimeMillis();
+//	            final long middleTimeMillis = System.currentTimeMillis();
 
 			    // get the appropriate avi level fill color (based on the forecast for the region and the timeframe mode)
 			    TimeframeMode timeframeMode = MainActivity.getDataManager().getTimeframeMode();
@@ -156,20 +156,20 @@ public class PolygonOverlay extends Overlay {
 			    canvas.drawPath(path, paintOutline);
 			    canvas.drawPath(path, paintFill);
 			    
-	            final long endTimeMillis = System.currentTimeMillis();
-	            final long elapsedTimeMillis = endTimeMillis - startTimeMillis;
-	            final long elapsedPathTimeMillis = middleTimeMillis - startTimeMillis;
-	            final long elapsedDrawTimeMillis = endTimeMillis - middleTimeMillis;
-	            totalTimeMillis += elapsedTimeMillis;
-	            totalPathTimeMillis += elapsedPathTimeMillis;
-	            totalDrawTimeMillis += elapsedDrawTimeMillis;
-	            totalDrawCalls++;
-	            double averageTimeMillis = ((double) totalTimeMillis) / totalDrawCalls;
-	            double averagePathTimeMillis = ((double) totalPathTimeMillis) / totalDrawCalls;
-	            double averageDrawTimeMillis = ((double) totalDrawTimeMillis) / totalDrawCalls;
-				Log.d(TAG, "finished drawing polygon for region: " + this.regionData.getRegionId() + "; elapsed time (ms): " + elapsedTimeMillis +
-						"; total draw calls: " + totalDrawCalls + "; total time (ms): " + totalTimeMillis + "; avg time (ms): " + 
-						averageTimeMillis + "; avg path time (ms): " + averagePathTimeMillis + "; avg draw time (ms): " + averageDrawTimeMillis);
+//	            final long endTimeMillis = System.currentTimeMillis();
+//	            final long elapsedTimeMillis = endTimeMillis - startTimeMillis;
+//	            final long elapsedPathTimeMillis = middleTimeMillis - startTimeMillis;
+//	            final long elapsedDrawTimeMillis = endTimeMillis - middleTimeMillis;
+//	            totalTimeMillis += elapsedTimeMillis;
+//	            totalPathTimeMillis += elapsedPathTimeMillis;
+//	            totalDrawTimeMillis += elapsedDrawTimeMillis;
+//	            totalDrawCalls++;
+//	            double averageTimeMillis = ((double) totalTimeMillis) / totalDrawCalls;
+//	            double averagePathTimeMillis = ((double) totalPathTimeMillis) / totalDrawCalls;
+//	            double averageDrawTimeMillis = ((double) totalDrawTimeMillis) / totalDrawCalls;
+//				Log.d(TAG, "finished drawing polygon for region: " + this.regionData.getRegionId() + "; elapsed time (ms): " + elapsedTimeMillis +
+//						"; total draw calls: " + totalDrawCalls + "; total time (ms): " + totalTimeMillis + "; avg time (ms): " + 
+//						averageTimeMillis + "; avg path time (ms): " + averagePathTimeMillis + "; avg draw time (ms): " + averageDrawTimeMillis);
 			}
 	    }
 	}
