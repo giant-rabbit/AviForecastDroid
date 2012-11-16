@@ -110,7 +110,7 @@ public class PolygonOverlay extends Overlay {
 			// NOTE since drawing is expensive, only draw if the map position if the polygon is onscreen
 			if (polygonOnscreen) {
 		    	
-				Log.i(TAG, "drawing polygon for region: " + this.regionData.getRegionId());
+				Log.d(TAG, "drawing polygon for region: " + this.regionData.getRegionId());
 	            final long startTimeMillis = System.currentTimeMillis();
 
 	            // check if the map position is the same
