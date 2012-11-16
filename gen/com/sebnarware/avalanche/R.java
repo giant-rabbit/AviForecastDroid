@@ -71,7 +71,7 @@ public final class R {
         public static final int menu_main=0x7f060000;
     }
     public static final class string {
-        public static final int activity_danger_scale_title=0x7f040013;
+        public static final int activity_danger_scale_title=0x7f040014;
         public static final int activity_main_title=0x7f04000c;
         public static final int activity_web_view_title=0x7f040011;
         public static final int app_name=0x7f04000b;
@@ -84,25 +84,26 @@ public final class R {
          */
         public static final int days_before_reminding=0x7f040009;
         public static final int days_until_prompt=0x7f040007;
-        public static final int dialog_disclaimer_message=0x7f04001a;
-        public static final int dialog_disclaimer_positive_button=0x7f04001b;
-        public static final int dialog_disclaimer_title=0x7f040019;
-        public static final int dialog_info_message=0x7f040017;
-        public static final int dialog_info_positive_button=0x7f040018;
-        public static final int dialog_info_title=0x7f040016;
-        public static final int empty=0x7f04001e;
-        public static final int image_view_danger_scale_content_description=0x7f040014;
-        public static final int image_view_legend_content_description=0x7f040012;
+        public static final int detailed_forecast_title_format=0x7f040012;
+        public static final int dialog_disclaimer_message=0x7f04001b;
+        public static final int dialog_disclaimer_positive_button=0x7f04001c;
+        public static final int dialog_disclaimer_title=0x7f04001a;
+        public static final int dialog_info_message=0x7f040018;
+        public static final int dialog_info_positive_button=0x7f040019;
+        public static final int dialog_info_title=0x7f040017;
+        public static final int empty=0x7f04001f;
+        public static final int image_view_danger_scale_content_description=0x7f040015;
+        public static final int image_view_legend_content_description=0x7f040013;
         public static final int launches_until_prompt=0x7f040008;
-        public static final int map_key_debug=0x7f04001f;
-        public static final int map_key_production=0x7f040020;
+        public static final int map_key_debug=0x7f040020;
+        public static final int map_key_production=0x7f040021;
         /**  Change the market_url for other markets i.e. Amazon App Store
     	Google Play = market://details?id=%s
     	Amazon App Store = http://www.amazon.com/gp/mas/dl/android?p=%s
      
          */
         public static final int market_url=0x7f040005;
-        public static final int menuitem_info=0x7f040015;
+        public static final int menuitem_info=0x7f040016;
         public static final int rate=0x7f040002;
         public static final int rate_cancel=0x7f040004;
         public static final int rate_later=0x7f040003;
@@ -111,7 +112,7 @@ public final class R {
         /**  Change to 1 to show every time, for testing 
          */
         public static final int test_mode=0x7f04000a;
-        public static final int toast_data_fetch_failure=0x7f04001c;
-        public static final int toast_location_services_disabled=0x7f04001d;
+        public static final int toast_data_fetch_failure=0x7f04001d;
+        public static final int toast_location_services_disabled=0x7f04001e;
     }
 }

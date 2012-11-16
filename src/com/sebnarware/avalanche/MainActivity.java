@@ -35,6 +35,7 @@ import android.widget.Toast;
 public class MainActivity extends MapActivity implements DataListener {
 	
     public final static String INTENT_EXTRA_WEB_VIEW_URL = "com.sebnarware.avalanche.WEB_VIEW_URL";
+    public final static String INTENT_EXTRA_WEB_VIEW_TITLE = "com.sebnarware.avalanche.WEB_VIEW_TITLE";
 
     private static final String TAG = "MainActivity";
 

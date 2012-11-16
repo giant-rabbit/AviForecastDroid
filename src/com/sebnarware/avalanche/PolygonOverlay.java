@@ -198,6 +198,8 @@ public class PolygonOverlay extends Overlay {
 		    Intent intent = new Intent(MainActivity.getMainActivity(), WebViewActivity.class);
 		    String url = this.regionData.getURL();
 		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL, url);
+		    String title = String.format(mapView.getResources().getString(R.string.detailed_forecast_title_format), this.regionData.getDisplayName());
+		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_TITLE, title);
 			Log.i(TAG, "onTap starting web view activity; url: " + url);
 			MainActivity.getMainActivity().startActivity(intent);
 		}

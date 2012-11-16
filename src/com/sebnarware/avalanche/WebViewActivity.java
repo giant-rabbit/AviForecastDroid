@@ -16,6 +16,10 @@ public class WebViewActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	
+        // get parameters from the intent
+        Intent intent = getIntent();
+        String title = intent.getStringExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_TITLE);
+        String url = intent.getStringExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL);
     	
     	// get access to the activity indicator
        	// NOTE must happen before content is added
@@ -28,7 +32,9 @@ public class WebViewActivity extends Activity {
         
         setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.logo);
 
-        
+        // set the title
+        this.setTitle(title);
+
         WebView webView = (WebView) findViewById(R.id.webview);
         
         // show full page width by default
@@ -61,10 +67,6 @@ public class WebViewActivity extends Activity {
 	    // NOTE set our user agent string to something benign and non-mobile looking, to work around website
 	    // popups from nwac.us asking if you would like to be redirected to the mobile version of the site
 		webView.getSettings().setUserAgentString("Mozilla/5.0");
-		
-        // get the desired url from the intent
-        Intent intent = getIntent();
-        String url = intent.getStringExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL);
 
         
         // set cache mode, depending on current network availability
