@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.flurry.android.FlurryAgent;
 import com.loopj.android.http.*;
 
 public class NetworkEngine {
@@ -69,10 +70,12 @@ public class NetworkEngine {
 	        	if (cachedResponse != null) {
 	        		// cache hit; return the cached data via the success callback
 		    		Log.i(TAG, "loadFromNetworkOrCache network failed, cache hit");
+	            	FlurryAgent.logEvent("no_network_data_cache_hit");
 	        		responseHandler.onSuccess(cachedResponse);
 	        	} else {
 	        		// cache miss; invoke the caller's failure callback
 		    		Log.i(TAG, "loadFromNetworkOrCache network failed, cache miss");
+	            	FlurryAgent.logEvent("no_network_data_cache_miss");
 	        		responseHandler.onFailure(error, content);
 	        	}
 	        }

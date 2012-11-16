@@ -1,6 +1,8 @@
 package com.sebnarware.avalanche;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.flurry.android.FlurryAgent;
 
@@ -99,8 +101,9 @@ public class MainActivity extends MapActivity implements DataListener {
         
         // get our data
         // NOTE we store the data manager in a static activity variable, so that even if the activity gets 
-        // restarted (for example, on an orientation change) we don't have to reload the region data
+        // recreated (for example, on an orientation change) we don't have to reload the region data
         setProgressBarIndeterminateVisibility(true);
+    	FlurryAgent.logEvent("load_data", null, true);
         if (MainActivity.dataManager == null) {
         	// load everything
             MainActivity.dataManager = new DataManager();
@@ -113,6 +116,7 @@ public class MainActivity extends MapActivity implements DataListener {
         
         // check if location services are available, and warn the user if not
         if (!areLocationProvidersEnabled(this)) {
+        	FlurryAgent.logEvent("no_location_providers");
         	Toast.makeText(this, R.string.toast_location_services_disabled, Toast.LENGTH_LONG).show();
         }
 	    
@@ -150,6 +154,7 @@ public class MainActivity extends MapActivity implements DataListener {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "onClick called for legend image view; starting danger scale activity");
+            	FlurryAgent.logEvent("view_danger_scale");
                 
     		    Intent intent = new Intent(self, DangerScaleActivity.class);
     			self.startActivity(intent);
@@ -227,6 +232,7 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	@Override
 	public void dataFetchDone(Throwable error) {
+    	FlurryAgent.endTimedEvent("load_data");
         setProgressBarIndeterminateVisibility(false);
         
         if (error != null) {
@@ -255,6 +261,10 @@ public class MainActivity extends MapActivity implements DataListener {
 
 		Log.i(TAG, "setTimeframeMode setting mode to: " + timeframeMode);
 		
+		Map<String, String> eventParams = new HashMap<String, String>();
+		eventParams.put("timeframe", timeframeMode.toString());
+    	FlurryAgent.logEvent("set_timeframe_mode", eventParams);
+
 		dataManager.setTimeframeMode(timeframeMode);
 				
 	    // force a redraw
@@ -299,6 +309,8 @@ public class MainActivity extends MapActivity implements DataListener {
 	}
 
 	private void showInfoDialog() {
+    	FlurryAgent.logEvent("view_info");
+
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.dialog_info_title);
 		String versionName = "";

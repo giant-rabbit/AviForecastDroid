@@ -1,5 +1,8 @@
 package com.sebnarware.avalanche;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,6 +11,7 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.util.Log;
 
+import com.flurry.android.FlurryAgent;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
@@ -227,7 +231,13 @@ public class PolygonOverlay extends Overlay {
 		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_URL, url);
 		    String title = String.format(mapView.getResources().getString(R.string.detailed_forecast_title_format), this.regionData.getDisplayName());
 		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_TITLE, title);
+		    
 			Log.i(TAG, "onTap starting web view activity; url: " + url);
+			
+			Map<String, String> eventParams = new HashMap<String, String>();
+			eventParams.put("region", this.regionData.getRegionId());
+        	FlurryAgent.logEvent("view_detailed_forecast", eventParams);
+        	
 			MainActivity.getMainActivity().startActivity(intent);
 			
 			// clear the selection after a short time
