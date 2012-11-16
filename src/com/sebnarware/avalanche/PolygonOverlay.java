@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
 
 public class PolygonOverlay extends Overlay {
 	
@@ -17,10 +18,78 @@ public class PolygonOverlay extends Overlay {
 
 	private static final int OVERLAY_ALPHA = (int) (0.65 * 255);
 	
+	private static final Paint paintOutline = initializePaintOutline();
+	private static final Paint[] paintAviLevel = {
+		initializePaintAviLevel(255, 255, 255),
+		initializePaintAviLevel(80, 184, 72),
+		initializePaintAviLevel(255, 242, 0),
+		initializePaintAviLevel(247, 148, 30),		
+		initializePaintAviLevel(237, 28, 36),		
+		initializePaintAviLevel(35, 31, 32)
+	};
+	
+	private static long totalTimeMillis = 0;
+	private static long totalPathTimeMillis = 0;
+	private static long totalDrawTimeMillis = 0;
+	private static long totalDrawCalls = 0;
+
 	private RegionData regionData;
+	private GeoPoint bbTopLeft;
+	private GeoPoint bbBottomRight;
+	private GeoPoint visibleTopLeftPrevious;
+	private GeoPoint visibleBottomRightPrevious;
+	private Path cachedPath;
+
+	
+	private static Paint initializePaintOutline() {
+	    Paint paint = new Paint();
+	    paint.setARGB(OVERLAY_ALPHA, 0, 0, 0);
+	    paint.setStrokeWidth(2);
+	    paint.setStrokeCap(Paint.Cap.ROUND);
+	    paint.setAntiAlias(true);
+	    paint.setDither(false);
+	    paint.setStyle(Paint.Style.STROKE);
+	    return paint;
+	}
+	
+	private static Paint initializePaintAviLevel(int r, int g, int b) {
+	    Paint paint = new Paint();
+	    paint.setARGB(OVERLAY_ALPHA, r, g, b);
+	    return paint;
+	}
 
 	public PolygonOverlay(RegionData regionData) {
 	    this.regionData = regionData;
+	    
+	    // calculate the georect bounding box for this polygon
+	    GeoPoint[] polygon = this.regionData.getPolygon();
+	    int left = polygon[0].getLongitudeE6();
+	    int right = polygon[0].getLongitudeE6();
+	    int top = polygon[0].getLatitudeE6();
+	    int bottom = polygon[0].getLatitudeE6();
+	    for (int i = 1; i < polygon.length; i++) {
+		    left = Math.min(left, polygon[i].getLongitudeE6());
+		    right = Math.max(right, polygon[i].getLongitudeE6());
+		    top = Math.max(top, polygon[i].getLatitudeE6());
+		    bottom = Math.min(bottom, polygon[i].getLatitudeE6());
+	    }
+	    this.bbTopLeft = new GeoPoint(top, left);
+	    this.bbBottomRight = new GeoPoint(bottom, right);
+	}
+	
+	public boolean geoRectsIntersect(GeoPoint rect1TopLeft, GeoPoint rect1BottomRight, GeoPoint rect2TopLeft, GeoPoint rect2BottomRight) {
+		
+		int latLow = Math.max(rect1BottomRight.getLatitudeE6(), rect2BottomRight.getLatitudeE6());
+		int latHigh = Math.min(rect1TopLeft.getLatitudeE6(), rect2TopLeft.getLatitudeE6());
+		boolean latOverlap = latLow <= latHigh;
+		
+		int lonLow = Math.max(rect1TopLeft.getLongitudeE6(), rect2TopLeft.getLongitudeE6());
+		int lonHigh = Math.min(rect1BottomRight.getLongitudeE6(), rect2BottomRight.getLongitudeE6());
+		boolean lonOverlap = lonLow <= lonHigh;
+
+		boolean intersect = latOverlap && lonOverlap;
+
+		return intersect;
 	}
 	
 	@Override
@@ -30,71 +99,86 @@ public class PolygonOverlay extends Overlay {
 		// draw once, so only take action for one of the two calls, for efficiency
 	    if (!shadow) {
 	    	
-		    // create a path from the array of geo points
-	    	// because paths are in pixels, not geopoints, we have to rebuild this every time the map zooms
-		    Path path = new Path();
-		    GeoPoint[] polygon = this.regionData.getPolygon();
+	    	// get the georect for the currently visible portion of the map
+            GeoPoint visibleTopLeft = mapView.getProjection().fromPixels(0, 0);
+            GeoPoint visibleBottomRight = mapView.getProjection().fromPixels(mapView.getWidth(), mapView.getHeight());
+        	
+            // check if the polygon is onscreen
+            boolean polygonOnscreen = geoRectsIntersect(visibleTopLeft, visibleBottomRight, bbTopLeft, bbBottomRight);
+			Log.d(TAG, "polygon for region: " + this.regionData.getRegionId() + " is onscreen: " + polygonOnscreen);
 
-		    for (int i = 0; i < polygon.length; i++) {
-			    Point pointInPixels = mapView.getProjection().toPixels(polygon[i], null);
-		    	if (i == 0) {
-		    		path.moveTo(pointInPixels.x, pointInPixels.y);
-		    	} else {
-		    		path.lineTo(pointInPixels.x, pointInPixels.y);
-		    	}
-		    }
-		    path.close();
+			// NOTE since drawing is expensive, only draw if the map position if the polygon is onscreen
+			if (polygonOnscreen) {
+		    	
+				Log.i(TAG, "drawing polygon for region: " + this.regionData.getRegionId());
+	            final long startTimeMillis = System.currentTimeMillis();
 
-		    Paint paintOutline = new Paint();
-		    paintOutline.setARGB(OVERLAY_ALPHA, 0, 0, 0);
-		    paintOutline.setStrokeWidth(2);
-		    paintOutline.setStrokeCap(Paint.Cap.ROUND);
-		    paintOutline.setAntiAlias(true);
-		    paintOutline.setDither(false);
-		    paintOutline.setStyle(Paint.Style.STROKE);
+	            // check if the map position is the same
+	            boolean mapPositionTheSame = visibleTopLeft.equals(visibleTopLeftPrevious) && visibleBottomRight.equals(visibleBottomRightPrevious);
+	            visibleTopLeftPrevious = visibleTopLeft;
+	        	visibleBottomRightPrevious = visibleBottomRight;
+	            
+	        	Path path;
+	            if (cachedPath != null && mapPositionTheSame) {
+					Log.d(TAG, "using cached path for region: " + this.regionData.getRegionId());
+					path = cachedPath;
+	            } else {
+					Log.d(TAG, "calculating path for region: " + this.regionData.getRegionId());
+	            	// create a path from the array of geo points
+			    	// because paths are in pixels, not geopoints, we have to rebuild this every time the map zooms or moves
+		            // NOTE this is computationally expensive...
+				    path = new Path();
+				    GeoPoint[] polygon = this.regionData.getPolygon();
+			    	Projection projection = mapView.getProjection();
 
-		    // get the appropriate avi level fill color (based on the forecast for the region and the timeframe mode)
-		    TimeframeMode timeframeMode = MainActivity.getDataManager().getTimeframeMode();
-		    int aviLevel = this.regionData.aviLevelForTimeframeMode(timeframeMode);
-		    Paint paintFill = getColorForAviLevel(aviLevel); 
-		    
-		    // draw the outline, and the fill
-		    canvas.drawPath(path, paintOutline);
-		    canvas.drawPath(path, paintFill);
+				    for (int i = 0; i < polygon.length; i++) {
+					    Point pointInPixels = projection.toPixels(polygon[i], null);
+				    	if (i == 0) {
+				    		path.moveTo(pointInPixels.x, pointInPixels.y);
+				    	} else {
+				    		path.lineTo(pointInPixels.x, pointInPixels.y);
+				    	}
+				    }
+				    path.close();
+	            	
+				    // cache the result
+	            	cachedPath = path;
+	            }
+	            
+	            final long middleTimeMillis = System.currentTimeMillis();
+
+			    // get the appropriate avi level fill color (based on the forecast for the region and the timeframe mode)
+			    TimeframeMode timeframeMode = MainActivity.getDataManager().getTimeframeMode();
+			    int aviLevel = this.regionData.aviLevelForTimeframeMode(timeframeMode);
+			    Paint paintFill = paintAviLevel[aviLevel]; 
+			    
+			    // draw the outline, and the fill
+			    canvas.drawPath(path, paintOutline);
+			    canvas.drawPath(path, paintFill);
+			    
+	            final long endTimeMillis = System.currentTimeMillis();
+	            final long elapsedTimeMillis = endTimeMillis - startTimeMillis;
+	            final long elapsedPathTimeMillis = middleTimeMillis - startTimeMillis;
+	            final long elapsedDrawTimeMillis = endTimeMillis - middleTimeMillis;
+	            totalTimeMillis += elapsedTimeMillis;
+	            totalPathTimeMillis += elapsedPathTimeMillis;
+	            totalDrawTimeMillis += elapsedDrawTimeMillis;
+	            totalDrawCalls++;
+	            double averageTimeMillis = ((double) totalTimeMillis) / totalDrawCalls;
+	            double averagePathTimeMillis = ((double) totalPathTimeMillis) / totalDrawCalls;
+	            double averageDrawTimeMillis = ((double) totalDrawTimeMillis) / totalDrawCalls;
+				Log.d(TAG, "finished drawing polygon for region: " + this.regionData.getRegionId() + "; elapsed time (ms): " + elapsedTimeMillis +
+						"; total draw calls: " + totalDrawCalls + "; total time (ms): " + totalTimeMillis + "; avg time (ms): " + 
+						averageTimeMillis + "; avg path time (ms): " + averagePathTimeMillis + "; avg draw time (ms): " + averageDrawTimeMillis);
+			}
 	    }
-	}
-	
-	private Paint getColorForAviLevel(int aviLevel) {
-		
-		Paint paint = new Paint();
-		
-		switch (aviLevel) {
-		case AviLevel.LOW:
-			paint.setARGB(OVERLAY_ALPHA, 80, 184, 72);
-			break;
-		case AviLevel.MODERATE:
-			paint.setARGB(OVERLAY_ALPHA, 255, 242, 0);
-			break;
-		case AviLevel.CONSIDERABLE:
-			paint.setARGB(OVERLAY_ALPHA, 247, 148, 30);
-			break;
-		case AviLevel.HIGH:
-			paint.setARGB(OVERLAY_ALPHA, 237, 28, 36);
-			break;
-		case AviLevel.EXTREME:
-			paint.setARGB(OVERLAY_ALPHA, 35, 31, 32);
-			break;
-		default:
-			paint.setARGB(OVERLAY_ALPHA, 255, 255, 255);
-			break;
-		}
-		
-		return paint;
 	}
 
 	@Override
 	public boolean onTap(GeoPoint point, MapView mapView) {
 		
+		Log.d(TAG, "checking for tap in region: " + this.regionData.getRegionId());
+
 		// first, project lat/lon points onto a flat surface, so we can run the point in polygon algorithm
 		GeoPoint[] polygon = this.regionData.getPolygon();
 		Point[] polygonInPixels = new Point[polygon.length];
