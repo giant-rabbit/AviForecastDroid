@@ -108,7 +108,7 @@ public class MainActivity extends MapActivity implements DataListener {
 
 	    
 	    // add an overlay that draws the blue dot at the user location
-	    // NOTE use a overloaded version of MyLocationOverlay to deal with a bug on some phones; see http://joshclemm.com/blog/?p=148
+	    // NOTE use a custom version of MyLocationOverlay to deal with a bug on some phones; see http://joshclemm.com/blog/?p=148
 	    myLocationOverlay = new FixedMyLocationOverlay(this, mapView);
 	    mapView.getOverlays().add(myLocationOverlay);
 	    mapView.invalidate();
