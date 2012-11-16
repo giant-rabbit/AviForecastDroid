@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
@@ -19,6 +20,7 @@ public class PolygonOverlay extends Overlay {
 	private static final int OVERLAY_ALPHA = (int) (0.65 * 255);
 	
 	private static final Paint paintOutline = initializePaintOutline();
+	private static final Paint paintOutlineSelected = initializePaintOutlineSelected();
 	private static final Paint[] paintAviLevel = {
 		initializePaintAviLevel(255, 255, 255),
 		initializePaintAviLevel(80, 184, 72),
@@ -34,6 +36,7 @@ public class PolygonOverlay extends Overlay {
 //	private static long totalDrawCalls = 0;
 
 	private RegionData regionData;
+	private boolean selected;
 	private GeoPoint bbTopLeft;
 	private GeoPoint bbBottomRight;
 	private GeoPoint visibleTopLeftPrevious;
@@ -51,7 +54,18 @@ public class PolygonOverlay extends Overlay {
 	    paint.setStyle(Paint.Style.STROKE);
 	    return paint;
 	}
-	
+
+	private static Paint initializePaintOutlineSelected() {
+	    Paint paint = new Paint();
+	    paint.setARGB(OVERLAY_ALPHA, 0, 0, 128);
+	    paint.setStrokeWidth(5);
+	    paint.setStrokeCap(Paint.Cap.ROUND);
+	    paint.setAntiAlias(true);
+	    paint.setDither(false);
+	    paint.setStyle(Paint.Style.STROKE);
+	    return paint;
+	}
+
 	private static Paint initializePaintAviLevel(int r, int g, int b) {
 	    Paint paint = new Paint();
 	    paint.setARGB(OVERLAY_ALPHA, r, g, b);
@@ -60,6 +74,7 @@ public class PolygonOverlay extends Overlay {
 
 	public PolygonOverlay(RegionData regionData) {
 	    this.regionData = regionData;
+	    this.selected = false;
 	    
 	    // calculate the georect bounding box for this polygon
 	    GeoPoint[] polygon = this.regionData.getPolygon();
@@ -76,7 +91,15 @@ public class PolygonOverlay extends Overlay {
 	    this.bbTopLeft = new GeoPoint(top, left);
 	    this.bbBottomRight = new GeoPoint(bottom, right);
 	}
-	
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
 	public boolean geoRectsIntersect(GeoPoint rect1TopLeft, GeoPoint rect1BottomRight, GeoPoint rect2TopLeft, GeoPoint rect2BottomRight) {
 		
 		int latLow = Math.max(rect1BottomRight.getLatitudeE6(), rect2BottomRight.getLatitudeE6());
@@ -153,7 +176,7 @@ public class PolygonOverlay extends Overlay {
 			    Paint paintFill = paintAviLevel[aviLevel]; 
 			    
 			    // draw the outline, and the fill
-			    canvas.drawPath(path, paintOutline);
+			    canvas.drawPath(path, (selected ? paintOutlineSelected : paintOutline));
 			    canvas.drawPath(path, paintFill);
 			    
 //	            final long endTimeMillis = System.currentTimeMillis();
@@ -194,6 +217,10 @@ public class PolygonOverlay extends Overlay {
 		if (pointInPolygon) {
 			Log.i(TAG, "onTap tap was in polygon of region: " + this.regionData.getRegionId());
 			
+			// draw the region as selected
+			selected = true;
+			mapView.invalidate();
+			
 			// start the web view activity
 		    Intent intent = new Intent(MainActivity.getMainActivity(), WebViewActivity.class);
 		    String url = this.regionData.getURL();
@@ -202,6 +229,16 @@ public class PolygonOverlay extends Overlay {
 		    intent.putExtra(MainActivity.INTENT_EXTRA_WEB_VIEW_TITLE, title);
 			Log.i(TAG, "onTap starting web view activity; url: " + url);
 			MainActivity.getMainActivity().startActivity(intent);
+			
+			// clear the selection after a short time
+			final PolygonOverlay self = this;
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+			  @Override
+			  public void run() {
+				  self.setSelected(false);
+			  }
+			}, 500);
 		}
 
 		return pointInPolygon;
