@@ -19,6 +19,7 @@
     <string name="dialog_disclaimer_message">This product, including all information shown, is provided \'as is\'. Sebnarware makes no warranty or representation of any kind. Sebnarware does not warrant that the product or information is error free, nor that service will be uninterrupted. In no event shall Sebnarware be liable for any damages (including without limitation, where use of the product could lead to death or personal injury).</string>
     <string name="dialog_disclaimer_positive_button">I Agree</string>
     <string name="toast_data_fetch_failure">Could not fetch data; is network available?</string>
+    <string name="toast_location_services_disabled">Please enable location services to automatically position the forecast map around your current location</string>
     <string name="empty"></string>
     <string name="map_key_debug">0D1jpN2fasf3RQcT5YKirZQl8Ae3En6IWzOqyig</string>
     <string name="map_key_production">0D1jpN2fasf3kOl7gAs8tSSklsPS1CObMiiqlSg</string>

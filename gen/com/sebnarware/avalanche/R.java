@@ -90,12 +90,12 @@ public final class R {
         public static final int dialog_info_message=0x7f040017;
         public static final int dialog_info_positive_button=0x7f040018;
         public static final int dialog_info_title=0x7f040016;
-        public static final int empty=0x7f04001d;
+        public static final int empty=0x7f04001e;
         public static final int image_view_danger_scale_content_description=0x7f040014;
         public static final int image_view_legend_content_description=0x7f040012;
         public static final int launches_until_prompt=0x7f040008;
-        public static final int map_key_debug=0x7f04001e;
-        public static final int map_key_production=0x7f04001f;
+        public static final int map_key_debug=0x7f04001f;
+        public static final int map_key_production=0x7f040020;
         /**  Change the market_url for other markets i.e. Amazon App Store
     	Google Play = market://details?id=%s
     	Amazon App Store = http://www.amazon.com/gp/mas/dl/android?p=%s
@@ -112,5 +112,6 @@ public final class R {
          */
         public static final int test_mode=0x7f04000a;
         public static final int toast_data_fetch_failure=0x7f04001c;
+        public static final int toast_location_services_disabled=0x7f04001d;
     }
 }

@@ -12,6 +12,7 @@ import com.google.android.maps.Overlay;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +57,12 @@ public class MainActivity extends MapActivity implements DataListener {
 		return mainActivity;
 	}
 
+	public static boolean areLocationProvidersEnabled(Context context) {
+	    ContentResolver cr = context.getContentResolver();
+	    String providersAllowed = Settings.Secure.getString(cr, Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+	    return providersAllowed != null && providersAllowed.length() > 0;
+	}
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	
@@ -99,6 +107,12 @@ public class MainActivity extends MapActivity implements DataListener {
         } else {
         	// just load the forecasts
             MainActivity.dataManager.loadForecasts(this, this); 
+        }
+        
+        
+        // check if location services are available, and warn the user if not
+        if (!areLocationProvidersEnabled(this)) {
+        	Toast.makeText(this, R.string.toast_location_services_disabled, Toast.LENGTH_LONG).show();
         }
 	    
         
