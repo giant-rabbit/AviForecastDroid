@@ -25,6 +25,7 @@ public class PolygonOverlay extends Overlay {
 	
 	private static final Paint paintOutline = initializePaintOutline();
 	private static final Paint paintOutlineSelected = initializePaintOutlineSelected();
+	// the colors for each avi level, 0 through 5
 	private static final Paint[] paintAviLevel = {
 		initializePaintAviLevel(255, 255, 255),
 		initializePaintAviLevel(80, 184, 72),
@@ -202,7 +203,7 @@ public class PolygonOverlay extends Overlay {
 	}
 
 	@Override
-	public boolean onTap(GeoPoint point, MapView mapView) {
+	public boolean onTap(GeoPoint point, final MapView mapView) {
 		
 		Log.d(TAG, "checking for tap in region: " + this.regionData.getRegionId());
 
@@ -247,6 +248,7 @@ public class PolygonOverlay extends Overlay {
 			  @Override
 			  public void run() {
 				  self.setSelected(false);
+				  mapView.invalidate();
 			  }
 			}, 500);
 		}
