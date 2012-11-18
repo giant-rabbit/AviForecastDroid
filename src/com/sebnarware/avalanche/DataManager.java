@@ -119,12 +119,17 @@ public class DataManager {
 			        		Log.d(TAG, "loadForecasts null forecast for region: " + regionId);
 	        			}
 	        			
-	        			// set the forecast on the region
+	        			// get the region for this forecast
 	        			RegionData regionData = regions.get(regionId);
-	        			regionData.setForecast(forecast);
-		        		
-		        		// call the listener
-		        		dataListener.forecastUpdated(regionData);
+	        			
+	        			// NOTE region might be null in the case of a brand new region added during a session
+	        			if (regionData != null) {
+		        			// set the forecast on the region
+		        			regionData.setForecast(forecast);
+		        			
+			        		// call the listener
+			        		dataListener.forecastUpdated(regionData);
+	        			}
 	        		}
 	        		
 	        		Log.i(TAG, "loadForecasts total count of non-null forecasts received: " + validForecastCount);
