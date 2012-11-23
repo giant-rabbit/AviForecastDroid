@@ -16,13 +16,13 @@ public class NetworkEngine {
     
     // BUGBUG have not gotten local access to work from either the emulator or from physical devices
 //    // local - test data
-//    private static final String regionsUrl = "http://10.0.2.2:5000/v1/regions.json";
+//    private static final String regionsUrl = "http://10.0.2.2:5000/v1test/regions.json";
 //    private static final String forecastsUrl = "http://10.0.2.2:5000/v1test/forecasts.json";
 //    // local
 //    private static final String regionsUrl = "http://10.0.2.2:5000/v1/regions.json";
 //    private static final String forecastsUrl = "http://10.0.2.2:5000/v1/forecasts.json";
 //    // staging - test data
-//    private static final String regionsUrl = "http://aviforecast-staging.herokuapp.com/v1/regions.json";
+//    private static final String regionsUrl = "http://aviforecast-staging.herokuapp.com/v1test/regions.json";
 //    private static final String forecastsUrl = "http://aviforecast-staging.herokuapp.com/v1test/forecasts.json";
 //    // staging
 //    private static final String regionsUrl = "http://aviforecast-staging.herokuapp.com/v1/regions.json";
