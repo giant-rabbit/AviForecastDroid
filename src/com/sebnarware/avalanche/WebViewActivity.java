@@ -2,10 +2,8 @@ package com.sebnarware.avalanche;
 
 import android.os.Bundle;
 import android.view.Window;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.*;
+import android.net.http.SslError;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +44,13 @@ public class WebViewActivity extends Activity {
         webView.getSettings().setBuiltInZoomControls(true);
         
         // make link navigation stay within this webview, vs. launching the browser
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+        	public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        		// NOTE ignore SSL errors (as some websites, like CAIC as of 2012-11-23, have them, in the sense 
+        		// that Android does not trust GoDaddy as a root domain authority, and so hits the brakes
+        		handler.proceed();
+        	}
+        });
         
         // enable javascript
         webView.getSettings().setJavaScriptEnabled(true);
@@ -70,10 +74,12 @@ public class WebViewActivity extends Activity {
 
         
         // set cache mode, depending on current network availability
+		// NOTE see http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/2.2_r1.1/android/webkit/CacheManager.java
+		// for some of the inner workings of the android webkit cache manager
         if (NetworkEngine.isNetworkAvailable(this)){
             webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         } else {
-            webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
         }
         
         webView.loadUrl(url);
