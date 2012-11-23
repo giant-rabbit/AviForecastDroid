@@ -99,21 +99,6 @@ public class MainActivity extends MapActivity implements DataListener {
         Appirater.appLaunched(this);
         
         
-        // get our data
-        // NOTE we store the data manager in a static activity variable, so that even if the activity gets 
-        // recreated (for example, on an orientation change) we don't have to reload the region data
-        setProgressBarIndeterminateVisibility(true);
-    	FlurryAgent.logEvent("load_data", null, true);
-        if (MainActivity.dataManager == null) {
-        	// load everything
-            MainActivity.dataManager = new DataManager();
-            MainActivity.dataManager.loadRegionsAndForecasts(this, this);
-        } else {
-        	// just load the forecasts
-            MainActivity.dataManager.loadForecasts(this, this); 
-        }
-        
-        
         // check if location services are available, and warn the user if not
         if (!areLocationProvidersEnabled(this)) {
         	FlurryAgent.logEvent("no_location_providers");
@@ -190,6 +175,22 @@ public class MainActivity extends MapActivity implements DataListener {
     	Log.i(TAG, "onResume called");
 		super.onResume();
 
+        
+        // get our data
+        // NOTE we store the data manager in a static activity variable, so that even if the activity gets 
+        // recreated (for example, on an orientation change) or resumed we don't have to reload the region data
+        setProgressBarIndeterminateVisibility(true);
+    	FlurryAgent.logEvent("load_data", null, true);
+        if (MainActivity.dataManager == null) {
+        	// load everything
+            MainActivity.dataManager = new DataManager();
+            MainActivity.dataManager.loadRegionsAndForecasts(this, this);
+        } else {
+        	// just load the forecasts
+            MainActivity.dataManager.loadForecasts(this, this); 
+        }
+
+        
 		// when our activity resumes, we want to start listening for location updates
 		myLocationOverlay.enableMyLocation();
 	}
