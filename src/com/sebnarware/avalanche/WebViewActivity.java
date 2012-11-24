@@ -79,6 +79,7 @@ public class WebViewActivity extends Activity {
         if (NetworkEngine.isNetworkAvailable(this)){
             webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         } else {
+        	// NOTE this should serve even expired content from the cache
             webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
         }
         
