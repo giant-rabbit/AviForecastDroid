@@ -46,8 +46,8 @@ public class WebViewActivity extends Activity {
         // make link navigation stay within this webview, vs. launching the browser
         webView.setWebViewClient(new WebViewClient() {
         	public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-        		// NOTE ignore SSL errors (as some websites, like CAIC as of 2012-11-23, have them, in the sense 
-        		// that Android does not trust GoDaddy as a root domain authority, and so hits the brakes
+        		// NOTE ignore SSL errors (as of 2012-11-23, CAIC uses GoDaddy as a root domain authority, but
+        		// Android does not have GoDaddy in its list of trusted authorities, and so hits the brakes)
         		handler.proceed();
         	}
         });
