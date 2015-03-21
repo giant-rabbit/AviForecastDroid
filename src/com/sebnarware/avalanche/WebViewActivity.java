@@ -68,6 +68,10 @@ public class WebViewActivity extends Activity {
 			}
 		});
 
+        // NOTE set our user agent string to something benign and non-mobile looking, to work around various sites
+        // asking if you would like to be redirected to the mobile version, or to download their mobile app
+		webView.getSettings().setUserAgentString("Mozilla/5.0");
+
         // set cache mode, depending on current network availability
 		// NOTE see http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/2.2_r1.1/android/webkit/CacheManager.java
 		// for some of the inner workings of the android webkit cache manager
