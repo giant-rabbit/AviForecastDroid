@@ -27,7 +27,7 @@ public class PolygonOverlay extends Overlay {
 	private static final Paint paintOutlineSelected = initializePaintOutlineSelected();
 	// the colors for each avi level, 0 through 5
 	private static final Paint[] paintAviLevel = {
-		initializePaintAviLevel(255, 255, 255),
+		initializePaintAviLevel(185, 185, 185),
 		initializePaintAviLevel(80, 184, 72),
 		initializePaintAviLevel(255, 242, 0),
 		initializePaintAviLevel(247, 148, 30),		
